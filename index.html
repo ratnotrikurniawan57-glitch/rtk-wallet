@@ -5,27 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>RTK.WALLET</title>
   <link rel="icon" type="image/png" href="icon_rtk.png">
-    <link rel="apple-touch-icon" href="icon_rtk.png">
+  <link rel="apple-touch-icon" href="icon_rtk.png">
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RTK Wallet">
-    <meta name="theme-color" content="#1E55D3">
-  
- <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RTK Wallet">
+  <meta name="theme-color" content="#1E55D3">
+
+  <link rel="manifest" href="manifest.json">
+
   <!-- Google Font: Share Tech Mono (Retro Terminal Typography) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 
   <!-- Font Awesome Icons, SweetAlert2, and Chart.js -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-
 
   <style>
     /* ============================================================
@@ -46,7 +45,6 @@
       --glow-effect: none;
     }
 
-
     [data-theme="dark"] {
       /* MODE MALAM (DARK RETRO CRT MONITOR) */
       --bg-app: #0A0F0D;
@@ -62,7 +60,6 @@
       --glow-effect: 0 0 8px rgba(0, 255, 102, 0.4);
     }
 
-
     /* ============================================================
        2. TATA LETAK UTAMA & TYPOGRAPHY
        ============================================================ */
@@ -72,7 +69,6 @@
       padding: 0;
     }
 
-
     body {
       background-color: var(--bg-app);
       color: var(--text-main);
@@ -81,7 +77,6 @@
       transition: background-color 0.25s ease, color 0.25s ease;
       position: relative;
     }
-
 
     /* Efek garis monitor CRT tipis */
     body::before {
@@ -96,10 +91,8 @@
       opacity: 0.6;
     }
 
-
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
 
     .term-box {
       background: var(--bg-card);
@@ -109,11 +102,9 @@
       transition: all 0.2s ease;
     }
 
-
     .term-box-glow {
       box-shadow: var(--card-shadow), var(--glow-effect);
     }
-
 
     .term-title-sub {
       font-size: 0.72rem;
@@ -122,7 +113,6 @@
       text-transform: uppercase;
       font-weight: bold;
     }
-
 
     .term-btn {
       background: var(--bg-card);
@@ -138,29 +128,24 @@
       user-select: none;
     }
 
-
     .term-btn:hover {
       box-shadow: var(--card-shadow);
       filter: brightness(1.1);
     }
 
-
     .term-btn:active {
       transform: scale(0.98);
     }
-
 
     .term-btn-green {
       color: var(--accent-green);
       border-color: var(--accent-green);
     }
 
-
     .term-btn-red {
       color: var(--accent-red);
       border-color: var(--accent-red);
     }
-
 
     .term-input, .term-select {
       width: 100%;
@@ -174,22 +159,18 @@
       border-radius: 4px;
     }
 
-
     .term-input:focus, .term-select:focus {
       box-shadow: 0 0 6px var(--border-color);
     }
-
 
     .cursor-blink {
       animation: blink 1s infinite;
     }
 
-
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
-
 
     /* Pattern Bar Rencana Budget */
     .top-budget-bar-bg {
@@ -201,7 +182,6 @@
       overflow: hidden;
       position: relative;
     }
-
 
     .top-budget-bar-fill {
       height: 100%;
@@ -220,7 +200,6 @@
       min-width: 38px;
     }
 
-
     .top-budget-bar-percent {
       font-size: 0.72rem;
       font-weight: 800;
@@ -228,7 +207,6 @@
       text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.9);
       white-space: nowrap;
     }
-
 
     .nav-btn-term {
       padding: 10px 12px;
@@ -243,7 +221,6 @@
       transition: all 0.2s ease;
     }
 
-
     .nav-btn-term:hover, .nav-btn-term.active {
       color: var(--text-main);
       border-color: var(--border-color);
@@ -251,7 +228,6 @@
       box-shadow: var(--card-shadow);
       font-weight: bold;
     }
-
 
     /* Tombol Floating AI (Melayang) dengan Tema Retro Terminal */
     .ai-fab-btn {
@@ -274,7 +250,6 @@
       transition: all 0.2s ease;
     }
 
-
     @media (min-width: 768px) {
       .ai-fab-btn {
         bottom: 28px;
@@ -285,17 +260,14 @@
       }
     }
 
-
     .ai-fab-btn:hover {
       transform: scale(1.08) rotate(5deg);
       filter: brightness(1.2);
     }
 
-
     .ai-fab-btn:active {
       transform: scale(0.95);
     }
-
 
     /* Modal Terminal */
     .modal-overlay {
@@ -312,9 +284,7 @@
   </style>
 </head>
 
-
 <body class="flex flex-col md:flex-row min-h-screen">
-
 
   <!-- SIDEBAR (DESKTOP) -->
   <aside class="hidden md:flex flex-col w-64 bg-[var(--bg-card)] border-r-2 border-[var(--border-color)] p-5 space-y-6 z-30">
@@ -325,12 +295,10 @@
       </div>
     </div>
 
-
     <!-- Tombol Aksi Cepat Desk -->
     <button onclick="nav('input')" class="term-btn term-btn-green w-full text-sm py-3">
       <i class="fa-solid fa-plus mr-1"></i> [ + CATAT BARU ]
     </button>
-
 
     <!-- Navigation Menu Desktop -->
     <nav class="flex-1 space-y-2">
@@ -348,7 +316,6 @@
       </div>
     </nav>
 
-
     <!-- Top Bar Controls (Settings & Theme) -->
     <div class="border-t-2 border-[var(--border-color)] pt-4 flex justify-between items-center">
       <button onclick="openManageCategoryModal()" class="term-btn text-xs" title="Kelola Kategori">
@@ -360,10 +327,8 @@
     </div>
   </aside>
 
-
   <!-- MAIN CONTENT CONTAINER -->
   <main class="flex-1 overflow-y-auto p-4 md:p-8 max-w-4xl mx-auto w-full pb-28 md:pb-8">
-
 
     <!-- Top Bar Mobile -->
     <div class="md:hidden flex justify-between items-center mb-4">
@@ -378,7 +343,6 @@
       </div>
     </div>
 
-
     <!-- Header Terminal Title -->
     <div class="term-box p-4 text-center mb-4">
       <div class="term-title-sub">PENCATAT KEUANGAN</div>
@@ -387,16 +351,14 @@
       </div>
     </div>
 
-
     <!-- Badge Streak -->
     <div class="term-box p-2 text-center text-xs md:text-sm text-[var(--accent-orange)] mb-4 tracking-wider">
       ⚡ <span id="streak-count">RTK</span> APLIKASI PENCATAT KEUANGAN
     </div>
 
-
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard" class="space-y-4">
-     
+      
       <!-- Saldo Utama -->
       <div class="term-box term-box-glow p-5 text-center">
         <div class="term-title-sub">SALDO SAAT INI</div>
@@ -404,7 +366,6 @@
           Rp 0
         </div>
       </div>
-
 
       <!-- Grid All-Time Pemasukan & Pengeluaran -->
       <div class="grid grid-cols-2 gap-3">
@@ -417,7 +378,6 @@
           <div id="dash-pengeluaran" class="text-sm md:text-base font-bold text-[var(--accent-red)] mt-1">Rp 0</div>
         </div>
       </div>
-
 
       <!-- Grid Khusus Bulan Ini -->
       <div class="term-box p-3">
@@ -434,7 +394,6 @@
         </div>
       </div>
 
-
       <!-- Seamless Widget: Top Category Budget Progress -->
       <div id="dash-top-cat" class="hidden term-box p-4 space-y-2">
         <div class="flex justify-between items-center text-xs md:text-sm font-bold">
@@ -449,11 +408,6 @@
           Terpakai: <b id="dash-top-cat-detail" class="text-[var(--text-main)]">Rp 0 / Rp 0</b>
         </div>
       </div>
-
-
-      <!-- Alert Peringatan Budget -->
-      <div id="dash-budget-alert" class="hidden space-y-2"></div>
-
 
       <!-- Grid Catat Kilat -->
       <div class="pt-2">
@@ -479,7 +433,6 @@
       </div>
     </section>
 
-
     <!-- VIEW 2: INPUT TRANSAKSI (MULTIMODAL GEMINI AI ASSISTANT) -->
     <section id="view-input" class="hidden space-y-4">
       <div class="term-box p-5 space-y-4">
@@ -487,16 +440,15 @@
           > INPUT TRANSAKSI BARU
         </div>
 
-
         <!-- Smart Multimodal Assistant (Text NLP + Voice + Struk OCR) -->
         <div class="p-3 bg-[var(--input-bg)] border border-[var(--border-color)] rounded space-y-2">
           <div class="flex justify-between items-center">
             <label class="term-title-sub block">ASISTEN PINTAR GEMINI AI</label>
             <span id="ai-status-indicator" class="text-[10px] text-[var(--accent-orange)] hidden">PROSES AI...<span class="cursor-blink">█</span></span>
           </div>
-         
+          
           <input type="text" id="smart-text-input" placeholder="Ketik: 'nasi uduk porsi banyak 2porsi 70ribu'..." class="term-input">
-         
+          
           <div class="grid grid-cols-3 gap-2 pt-1">
             <button type="button" onclick="processSmartNLPText()" class="term-btn term-btn-green text-xs py-2">
               <i class="fa-solid fa-keyboard mr-1"></i> PROSES TEKS
@@ -509,11 +461,9 @@
             </button>
           </div>
 
-
           <!-- Hidden Input for File Upload -->
           <input type="file" id="struk-file-input" accept="image/*" capture="environment" onchange="handleStrukUpload(event)" class="hidden">
         </div>
-
 
         <!-- Toggle Jenis Transaksi -->
         <div>
@@ -528,19 +478,16 @@
           </div>
         </div>
 
-
         <!-- Form Manual Auto-filled by Gemini -->
         <div>
           <label class="term-title-sub block mb-1">KATEGORI</label>
           <select id="input-kategori" class="term-select"></select>
         </div>
 
-
         <div>
           <label class="term-title-sub block mb-1">NOMINAL (RP)</label>
           <input type="text" id="input-nominal" oninput="formatRupiahInput(this)" placeholder="0" class="term-input font-bold">
         </div>
-
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
@@ -553,13 +500,11 @@
           </div>
         </div>
 
-
         <button onclick="simpanTransaksi()" class="term-btn term-btn-green w-full py-3 text-sm mt-2">
           [ SIMPAN TRANSAKSI ]
         </button>
       </div>
     </section>
-
 
     <!-- VIEW 3: RIWAYAT -->
     <section id="view-history" class="hidden space-y-4">
@@ -572,7 +517,6 @@
         </select>
       </div>
 
-
       <div class="term-box p-4">
         <div class="term-title-sub border-b border-[var(--border-color)] pb-2 mb-3">
           > DAFTAR RIWAYAT TRANSAKSI
@@ -581,8 +525,7 @@
       </div>
     </section>
 
-
-   <!-- VIEW 4: RENCANA BUDGET -->
+    <!-- VIEW 4: RENCANA BUDGET -->
     <section id="view-plan" class="hidden space-y-4">
       <div class="term-box p-4">
         <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-2 mb-3">
@@ -599,7 +542,6 @@
       </div>
     </section>
 
-
     <!-- VIEW 5: LAPORAN & UTANG -->
     <section id="view-extra" class="hidden space-y-6">
       <div class="term-box p-4 space-y-3">
@@ -611,7 +553,6 @@
         </div>
       </div>
 
-
       <div class="term-box p-4 space-y-4">
         <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-2">
           <div class="term-title-sub">> CATATAN UTANG / PIUTANG</div>
@@ -620,20 +561,16 @@
           </button>
         </div>
 
-
         <div id="debt-list" class="space-y-3"></div>
       </div>
     </section>
 
-
   </main>
-
 
   <!-- Floating Bobib AI Button (Melayang) -->
   <button id="ai-fab-button" onclick="triggerAIAnalysis()" class="ai-fab-btn" title="Tanya Bobib AI">
     🤖
   </button>
-
 
   <!-- Navigation Mobile Bottom Bar -->
   <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[var(--bg-card)] border-t-2 border-[var(--border-color)] p-2 z-40 flex justify-around items-center">
@@ -654,7 +591,6 @@
     </button>
   </nav>
 
-
   <!-- Modal Kelola Kategori -->
   <div id="category-modal" class="modal-overlay hidden">
     <div class="term-box p-5 w-full max-w-md space-y-4 max-h-[90vh] overflow-y-auto">
@@ -662,7 +598,6 @@
         <div class="term-title-sub">> KELOLA KATEGORI</div>
         <button onclick="closeManageCategoryModal()" class="term-btn text-xs px-2 py-0.5">X</button>
       </div>
-
 
       <div class="space-y-2 border-b border-[var(--border-color)] pb-4">
         <label class="term-title-sub block">TAMBAH KATEGORI BARU</label>
@@ -679,7 +614,6 @@
         </button>
       </div>
 
-
       <div class="space-y-2">
         <label class="term-title-sub block">DAFTAR KATEGORI AKTIF</label>
         <div id="modal-category-list" class="space-y-2"></div>
@@ -687,6 +621,26 @@
     </div>
   </div>
 
+  <!-- Modal Set / Edit Budget -->
+  <div id="add-budget-modal" class="modal-overlay hidden">
+    <div class="term-box p-5 w-full max-w-md space-y-3">
+      <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-2">
+        <div class="term-title-sub">> SET TARGET BUDGET KATEGORI</div>
+        <button onclick="closeAddBudgetModal()" class="term-btn text-xs px-2 py-0.5">X</button>
+      </div>
+      <div>
+        <label class="term-title-sub block mb-1">PILIH KATEGORI</label>
+        <select id="budget-kategori-select" class="term-select"></select>
+      </div>
+      <div>
+        <label class="term-title-sub block mb-1">TARGET ANGGARAN (RP)</label>
+        <input type="text" id="budget-target-input" oninput="formatRupiahInput(this)" placeholder="0" class="term-input font-bold">
+      </div>
+      <button onclick="saveBudgetTarget()" class="term-btn term-btn-green w-full py-2.5 text-xs">
+        [ SIMPAN BUDGET ]
+      </button>
+    </div>
+  </div>
 
   <!-- Modal Tambah Utang / Piutang -->
   <div id="add-debt-modal" class="modal-overlay hidden">
@@ -720,7 +674,6 @@
     </div>
   </div>
 
-
   <!-- Modal Cicil / Pelunasan Utang -->
   <div id="pay-debt-modal" class="modal-overlay hidden">
     <div class="term-box p-5 w-full max-w-md space-y-3">
@@ -732,11 +685,11 @@
       <div class="text-xs text-[var(--text-muted)]" id="pay-debt-target-info">...</div>
       <div>
         <label class="term-title-sub block mb-1">NOMINAL BAYAR (RP)</label>
-        <input type="number" id="pay-debt-nominal" class="term-input" placeholder="25000">
+        <input type="text" id="pay-debt-nominal" oninput="formatRupiahInput(this)" class="term-input font-bold" placeholder="0">
       </div>
       <div class="flex items-center gap-2 pt-1">
         <input type="checkbox" id="pay-debt-catat-saldo" checked class="accent-[var(--accent-green)]">
-        <label for="pay-debt-catat-saldo" class="text-xs font-bold">Catat Otomatis ke Transaksi Saldo Utang</label>
+        <label for="pay-debt-catat-saldo" class="text-xs font-bold">Catat Otomatis ke Transaksi Saldo</label>
       </div>
       <button onclick="processPayDebt()" class="term-btn term-btn-green w-full py-2.5 text-xs">
         [ PROSES PEMBAYARAN ]
@@ -746,36 +699,36 @@
 
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbz313hGYl68r_No7YMh21nj-p-x6hsYiIu_BpbHOw6or02it0UrtpbR42uVeNHKX_yy/exec";
+
     async function callApi(action, payload = {}) {
-  try {
-    const response = await fetch(GAS_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: action, payload: payload })
-    });
-    const json = await response.json();
-    if (json.status === 'success') {
-      return json.data;
-    } else {
-      throw new Error(json.message || "Gagal memproses data di server.");
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: action, payload: payload })
+        });
+        const json = await response.json();
+        if (json.status === 'success') {
+          return json.data;
+        } else {
+          throw new Error(json.message || "Gagal memproses data di server.");
+        }
+      } catch (err) {
+        console.error("API Error:", err);
+        throw err;
+      }
     }
-  } catch (err) {
-    console.error("API Error:", err);
-    throw err;
-  }
-}
-    // --- APP STATE & GLOBALS ---
+
     let appData = {
       transactions: [],
       categories: [],
       budgets: [],
       debts: []
     };
+
     let currentJenisInput = 'Pengeluaran';
     let myChart = null;
 
-
-    // --- SWEETALERT2 TEMA TERMINAL ---
     function getSwalConfig() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       return {
@@ -783,79 +736,66 @@
         color: isDark ? '#00FF66' : '#1B3D2F',
         confirmButtonColor: '#007A4D',
         cancelButtonColor: '#C62828',
-        customClass: {
-          popup: 'term-box'
-        }
+        customClass: { popup: 'term-box' }
       };
     }
 
-
-    // --- UTILITY FORMATTERS ---
     function formatRupiah(number) {
       if (isNaN(number) || number === null || number === undefined) return "Rp 0";
       return "Rp " + Number(number).toLocaleString("id-ID");
     }
 
-
-function formatRupiahInput(inputEl) {
-  let value = inputEl.value.replace(/\D/g, "");
-  if (value) {
-    inputEl.value = Number(value).toLocaleString("id-ID");
-  } else {
-    inputEl.value = "";
-  }
-}
-
+    function formatRupiahInput(inputEl) {
+      let value = inputEl.value.replace(/\D/g, "");
+      if (value) {
+        inputEl.value = Number(value).toLocaleString("id-ID");
+      } else {
+        inputEl.value = "";
+      }
+    }
 
     function getUnformattedNominal(formattedVal) {
       return parseFloat(formattedVal.toString().replace(/\D/g, "")) || 0;
     }
 
-
     function toggleTheme() {
       const htmlEl = document.documentElement;
       const currentTheme = htmlEl.getAttribute('data-theme');
       const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-     
       htmlEl.setAttribute('data-theme', nextTheme);
       document.getElementById('theme-text-mob').innerText = nextTheme.toUpperCase();
       document.getElementById('theme-text-desk').innerText = nextTheme.toUpperCase();
       localStorage.setItem('rtk_theme', nextTheme);
-
-
       if (myChart) renderExtra();
     }
-
 
     (function initTheme() {
       const savedTheme = localStorage.getItem('rtk_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
       document.getElementById('theme-text-mob').innerText = savedTheme.toUpperCase();
       document.getElementById('theme-text-desk').innerText = savedTheme.toUpperCase();
+      const inputTgl = document.getElementById('input-tanggal');
+      if (inputTgl) inputTgl.valueAsDate = new Date();
     })();
-
 
     function nav(viewId) {
       ['dashboard', 'history', 'input', 'plan', 'extra'].forEach(v => {
-        document.getElementById(`view-${v}`).classList.add('hidden');
-       
+        const viewEl = document.getElementById(`view-${v}`);
+        if (viewEl) viewEl.classList.add('hidden');
         const mobBtn = document.getElementById(`mob-nav-${v}`);
         if (mobBtn) mobBtn.classList.remove('active', 'term-btn-green');
-       
         const deskBtn = document.getElementById(`desk-nav-${v}`);
         if (deskBtn) deskBtn.classList.remove('active');
       });
 
+      const activeView = document.getElementById(`view-${viewId}`);
+      if (activeView) activeView.classList.remove('hidden');
 
-      document.getElementById(`view-${viewId}`).classList.remove('hidden');
-     
       const activeMob = document.getElementById(`mob-nav-${viewId}`);
       if (activeMob) activeMob.classList.add('active', 'term-btn-green');
 
-
       const activeDesk = document.getElementById(`desk-nav-${viewId}`);
       if (activeDesk) activeDesk.classList.add('active');
-
 
       if (viewId === 'dashboard') renderDashboard();
       if (viewId === 'history') renderHistory();
@@ -863,86 +803,58 @@ function formatRupiahInput(inputEl) {
       if (viewId === 'extra') renderExtra();
     }
 
-
     async function loadInitialData() {
-  try {
-    // 1. Tampilkan indikator loading (opsional)
-    if (typeof Swal !== 'undefined') {
-      Swal.fire({
-        title: 'Menghubungkan Server...',
-        text: 'Mengambil data dari RTK Wallet...',
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading()
-      });
+      try {
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({
+            title: 'Menghubungkan Server...',
+            text: 'Mengambil data dari RTK Wallet...',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+          });
+        }
+        const data = await callApi('getInitialData');
+        appData = data || { transactions: [], categories: [], budgets: [], debts: [] };
+        if (typeof Swal !== 'undefined' && Swal.isVisible()) Swal.close();
+        populateCategoryDropdown();
+        renderDashboard();
+      } catch (err) {
+        console.error("Error loading initial data:", err);
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Gagal mengambil data: ' + err.message });
+        }
+        renderDashboard();
+      }
     }
 
-    // 2. Ambil data asli dari Apps Script via Vercel (Fetch API)
-    const data = await callApi('getInitialData');
-
-    // 3. Simpan hasil ke variabel appData
-    appData = data || { transactions: [], categories: [], budgets: [], debts: [] };
-
-    // 4. Tutup loading
-    if (typeof Swal !== 'undefined' && Swal.isVisible()) {
-      Swal.close();
-    }
-
-    // 5. Render tampilan UI
-    populateCategoryDropdown();
-    renderDashboard();
-
-  } catch (err) {
-    console.error("Error loading initial data:", err);
-
-    if (typeof Swal !== 'undefined') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Koneksi Gagal',
-        text: 'Gagal mengambil data: ' + err.message
-      });
-    }
-
-    // Tetap render dashboard agar UI tidak blank jika error
-    renderDashboard();
-  }
-}
-      function renderDashboard() {
+    function renderDashboard() {
       let totalMasukAll = 0, totalKeluarAll = 0;
       let totalMasukBulan = 0, totalKeluarBulan = 0;
-
-
       const now = new Date();
       const currentMonthStr = now.toISOString().slice(0, 7);
 
-
-      appData.transactions.forEach(t => {
-        const nominal = parseFloat(t.Nominal) || 0;
-        const tglStr = (t.Tanggal || '').slice(0, 7);
-
-
-        if (t.Jenis === 'Pemasukan') {
-          totalMasukAll += nominal;
-          if (tglStr === currentMonthStr) totalMasukBulan += nominal;
-        } else if (t.Jenis === 'Pengeluaran') {
-          totalKeluarAll += nominal;
-          if (tglStr === currentMonthStr) totalKeluarBulan += nominal;
-        }
-      });
-
+      if (appData.transactions && Array.isArray(appData.transactions)) {
+        appData.transactions.forEach(t => {
+          const nominal = parseFloat(t.Nominal) || 0;
+          const tglStr = (t.Tanggal || '').slice(0, 7);
+          if (t.Jenis === 'Pemasukan') {
+            totalMasukAll += nominal;
+            if (tglStr === currentMonthStr) totalMasukBulan += nominal;
+          } else if (t.Jenis === 'Pengeluaran') {
+            totalKeluarAll += nominal;
+            if (tglStr === currentMonthStr) totalKeluarBulan += nominal;
+          }
+        });
+      }
 
       const totalSaldo = totalMasukAll - totalKeluarAll;
-
-
       document.getElementById('dash-total-saldo').innerText = formatRupiah(totalSaldo);
       document.getElementById('dash-pemasukan').innerText = formatRupiah(totalMasukAll);
       document.getElementById('dash-pengeluaran').innerText = formatRupiah(totalKeluarAll);
       document.getElementById('dash-pemasukan-bulan-ini').innerText = formatRupiah(totalMasukBulan);
       document.getElementById('dash-pengeluaran-bulan-ini').innerText = formatRupiah(totalKeluarBulan);
-
-
       renderTopBudgetWidget(currentMonthStr);
     }
-
 
     function renderTopBudgetWidget(currentMonthStr) {
       const widgetContainer = document.getElementById('dash-top-cat');
@@ -950,42 +862,29 @@ function formatRupiahInput(inputEl) {
         widgetContainer.classList.add('hidden');
         return;
       }
-
-
       const budget = appData.budgets[0];
       const categoryObj = appData.categories.find(c => c.ID_Kategori === budget.ID_Kategori || c.Nama_Kategori === budget.ID_Kategori);
       const catName = categoryObj ? categoryObj.Nama_Kategori : budget.ID_Kategori;
       const catIcon = categoryObj ? categoryObj.Ikon : '📌';
-
-
       let totalPemakaian = 0;
       appData.transactions.forEach(t => {
         if (t.Jenis === 'Pengeluaran' && t.Kategori === catName && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
           totalPemakaian += parseFloat(t.Nominal) || 0;
         }
       });
-
-
       const target = parseFloat(budget.Target_Anggaran) || 1;
       const percent = Math.min(Math.round((totalPemakaian / target) * 100), 100);
-
-
       document.getElementById('dash-top-cat-title').innerText = `${catIcon} TARGET: ${catName.toUpperCase()}`;
       document.getElementById('dash-top-cat-detail').innerText = `${formatRupiah(totalPemakaian)} / ${formatRupiah(target)}`;
       document.getElementById('dash-top-cat-bar').style.width = `${percent}%`;
       document.getElementById('dash-top-cat-percent').innerText = `${percent}%`;
-
-
       widgetContainer.classList.remove('hidden');
     }
-
 
     function setJenis(jenis) {
       currentJenisInput = jenis;
       const btnPengeluaran = document.getElementById('btn-pengeluaran');
       const btnPemasukan = document.getElementById('btn-pemasukan');
-
-
       if (jenis === 'Pengeluaran') {
         btnPengeluaran.className = "term-btn term-btn-red text-xs py-2.5";
         btnPemasukan.className = "term-btn text-xs py-2.5 opacity-60";
@@ -996,12 +895,10 @@ function formatRupiahInput(inputEl) {
       populateCategoryDropdown();
     }
 
-
     function populateCategoryDropdown() {
       const selectEl = document.getElementById('input-kategori');
+      if (!selectEl) return;
       selectEl.innerHTML = '';
-
-
       const filtered = appData.categories.filter(c => (c.Jenis || 'Pengeluaran') === currentJenisInput);
       filtered.forEach(c => {
         const opt = document.createElement('option');
@@ -1011,19 +908,470 @@ function formatRupiahInput(inputEl) {
       });
     }
 
-
     function quickSelect(kategori, catatan) {
       setJenis('Pengeluaran');
-      document.getElementById('input-kategori').value = kategori;
-      document.getElementById('input-catatan').value = catatan;
+      const inputCat = document.getElementById('input-kategori');
+      if (inputCat) inputCat.value = kategori;
+      const inputNote = document.getElementById('input-catatan');
+      if (inputNote) inputNote.value = catatan;
       nav('input');
-      document.getElementById('input-nominal').focus();
+      const nominalEl = document.getElementById('input-nominal');
+      if (nominalEl) nominalEl.focus();
     }
 
+    function openManageCategoryModal() {
+      renderModalCategoryList();
+      const modal = document.getElementById('category-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
 
-    // --- SMART MULTIMODAL INPUT HANDLERS ---
+    function closeManageCategoryModal() {
+      const modal = document.getElementById('category-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderModalCategoryList() {
+      const listEl = document.getElementById('modal-category-list');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+
+      if (!appData.categories || appData.categories.length === 0) {
+        listEl.innerHTML = `<div class="text-center py-3 text-xs text-[var(--text-muted)]">Belum ada kategori terdaftar.</div>`;
+        return;
+      }
+
+      appData.categories.forEach(c => {
+        const row = document.createElement('div');
+        row.className = 'flex justify-between items-center p-2 border border-[var(--border-color)] rounded text-xs';
+        row.innerHTML = `
+          <span>${c.Ikon || '📌'} <b>${c.Nama_Kategori}</b> (${c.Jenis || 'Pengeluaran'})</span>
+          <button onclick="deleteCategory('${c.Nama_Kategori}')" class="term-btn term-btn-red text-[10px] py-0.5 px-2" title="Hapus Kategori">🗑️</button>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    async function saveCategory() {
+      const iconInput = document.getElementById('cat-icon-input').value.trim() || '📌';
+      const nameInput = document.getElementById('cat-name-input').value.trim();
+      const typeInput = document.getElementById('cat-type-input').value;
+
+      if (!nameInput) {
+        Swal.fire({ ...getSwalConfig(), title: 'Input Kosong', text: 'Nama kategori wajib diisi!', icon: 'warning' });
+        return;
+      }
+
+      const isExist = appData.categories.some(c => c.Nama_Kategori.toLowerCase() === nameInput.toLowerCase());
+      if (isExist) {
+        Swal.fire({ ...getSwalConfig(), title: 'Sudah Ada', text: 'Kategori ini sudah terdaftar.', icon: 'info' });
+        return;
+      }
+
+      const newCat = { ID_Kategori: nameInput, Nama_Kategori: nameInput, Jenis: typeInput, Ikon: iconInput };
+
+      try {
+        Swal.fire({ title: 'Menyimpan Kategori...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await callApi('saveCategory', newCat);
+        appData.categories.push(newCat);
+        
+        document.getElementById('cat-icon-input').value = '';
+        document.getElementById('cat-name-input').value = '';
+        
+        populateCategoryDropdown();
+        renderModalCategoryList();
+        renderDashboard();
+        
+        Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: `Kategori '${nameInput}' tersimpan ke Sheet.`, icon: 'success' });
+      } catch (err) {
+        Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
+      }
+    }
+
+    async function deleteCategory(namaKategori) {
+      const result = await Swal.fire({
+        ...getSwalConfig(),
+        title: 'Hapus Kategori?',
+        text: `Hapus kategori '${namaKategori}' dari Sheet?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+      });
+
+      if (result.isConfirmed) {
+        try {
+          Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          await callApi('deleteCategory', { Nama_Kategori: namaKategori });
+          appData.categories = appData.categories.filter(c => c.Nama_Kategori !== namaKategori);
+          
+          populateCategoryDropdown();
+          renderModalCategoryList();
+          renderDashboard();
+          
+          Swal.fire({ ...getSwalConfig(), title: 'Terhapus!', text: 'Kategori berhasil dihapus.', icon: 'success' });
+        } catch (err) {
+          Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
+        }
+      }
+    }
+
+    function renderPlan() {
+      const planContainer = document.getElementById('plan-list');
+      if (!planContainer) return;
+      planContainer.innerHTML = '';
+
+      const catPengeluaran = appData.categories.filter(c => (c.Jenis || 'Pengeluaran') === 'Pengeluaran');
+      if (catPengeluaran.length === 0) {
+        planContainer.innerHTML = `<div class="text-center py-6 text-xs text-[var(--text-muted)]">Belum ada kategori pengeluaran terdaftar.</div>`;
+        return;
+      }
+
+      const now = new Date();
+      const currentMonthStr = now.toISOString().slice(0, 7);
+
+      catPengeluaran.forEach(c => {
+        const catName = c.Nama_Kategori;
+        const catIcon = c.Ikon || '📌';
+        const budgetObj = appData.budgets ? appData.budgets.find(b => b.ID_Kategori === catName) : null;
+        const target = budgetObj ? parseFloat(budgetObj.Target_Anggaran) || 0 : 0;
+
+        let totalPemakaian = 0;
+        if (appData.transactions) {
+          appData.transactions.forEach(t => {
+            if (t.Jenis === 'Pengeluaran' && t.Kategori === catName && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
+              totalPemakaian += parseFloat(t.Nominal) || 0;
+            }
+          });
+        }
+
+        const percent = target > 0 ? Math.min(Math.round((totalPemakaian / target) * 100), 100) : 0;
+
+        const item = document.createElement('div');
+        item.className = 'term-box p-3 space-y-2';
+        item.innerHTML = `
+          <div class="flex justify-between items-center text-xs md:text-sm font-bold">
+            <span>${catIcon} ${catName.toUpperCase()}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-[var(--accent-orange)]">${formatRupiah(totalPemakaian)} / ${formatRupiah(target)}</span>
+              <button onclick="editBudget('${catName}', ${target})" class="term-btn text-[10px] px-2 py-0.5" title="Set/Edit Budget">✏️</button>
+            </div>
+          </div>
+          <div class="top-budget-bar-bg">
+            <div class="top-budget-bar-fill" style="width: ${percent}%;">
+              <span class="top-budget-bar-percent">${percent}%</span>
+            </div>
+          </div>
+        `;
+        planContainer.appendChild(item);
+      });
+    }
+
+    function openAddBudgetModal() {
+      const selectEl = document.getElementById('budget-kategori-select');
+      if (!selectEl) return;
+      selectEl.innerHTML = '';
+      const catPengeluaran = appData.categories.filter(c => (c.Jenis || 'Pengeluaran') === 'Pengeluaran');
+      
+      if (catPengeluaran.length === 0) {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: 'Kategori Kosong',
+          text: 'Belum ada kategori pengeluaran terdaftar. Buat kategori dulu di menu CONFIG!',
+          icon: 'warning'
+        });
+        return;
+      }
+
+      catPengeluaran.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.Nama_Kategori;
+        opt.innerText = `${c.Ikon || '📌'} ${c.Nama_Kategori}`;
+        selectEl.appendChild(opt);
+      });
+      document.getElementById('budget-target-input').value = '';
+      document.getElementById('add-budget-modal').classList.remove('hidden');
+    }
+
+    function closeAddBudgetModal() {
+      const modal = document.getElementById('add-budget-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function editBudget(catName, currentTarget) {
+      openAddBudgetModal();
+      const selectEl = document.getElementById('budget-kategori-select');
+      if (selectEl) selectEl.value = catName;
+      const inputEl = document.getElementById('budget-target-input');
+      if (inputEl) inputEl.value = currentTarget > 0 ? Number(currentTarget).toLocaleString('id-ID') : '';
+    }
+
+    async function saveBudgetTarget() {
+      const selectEl = document.getElementById('budget-kategori-select');
+      const inputEl = document.getElementById('budget-target-input');
+      if (!selectEl || !inputEl) return;
+
+      const kategori = selectEl.value;
+      const targetVal = getUnformattedNominal(inputEl.value);
+
+      if (!kategori || targetVal <= 0) {
+        Swal.fire({ ...getSwalConfig(), title: 'Input Salah', text: 'Pilih kategori dan masukkan nominal target > 0.', icon: 'warning' });
+        return;
+      }
+
+      try {
+        Swal.fire({ title: 'Menyimpan Target Budget...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await callApi('saveBudget', { ID_Kategori: kategori, Target_Anggaran: targetVal });
+        
+        if (!appData.budgets) appData.budgets = [];
+        const existingIndex = appData.budgets.findIndex(b => b.ID_Kategori === kategori);
+        if (existingIndex >= 0) {
+          appData.budgets[existingIndex].Target_Anggaran = targetVal;
+        } else {
+          appData.budgets.push({ ID_Kategori: kategori, Target_Anggaran: targetVal });
+        }
+        
+        closeAddBudgetModal();
+        renderPlan();
+        renderDashboard();
+        Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: `Budget ${kategori} disimpan.`, icon: 'success' });
+      } catch (err) {
+        Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
+      }
+    }
+
+    async function simpanTransaksi() {
+      const nominalVal = getUnformattedNominal(document.getElementById('input-nominal').value);
+      const kategoriVal = document.getElementById('input-kategori').value;
+      const tanggalVal = document.getElementById('input-tanggal').value;
+      const catatanVal = document.getElementById('input-catatan').value;
+
+      if (nominalVal <= 0 || !kategoriVal || !tanggalVal) {
+        Swal.fire({ ...getSwalConfig(), title: 'Input Inkomplit', text: 'Nominal, Kategori, dan Tanggal wajib diisi.', icon: 'warning' });
+        return;
+      }
+
+      const payload = {
+        ID_Transaksi: 'TRX-' + Date.now(),
+        Tanggal: tanggalVal,
+        Jenis: currentJenisInput,
+        Kategori: kategoriVal,
+        Nominal: nominalVal,
+        Catatan: catatanVal
+      };
+
+      try {
+        Swal.fire({ title: 'Menyimpan Transaksi...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await callApi('saveTransaction', payload);
+        if (!appData.transactions) appData.transactions = [];
+        appData.transactions.unshift(payload);
+        document.getElementById('input-nominal').value = '';
+        document.getElementById('input-catatan').value = '';
+        Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: 'Transaksi berhasil dicatat.', icon: 'success' });
+        nav('dashboard');
+      } catch (err) {
+        Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
+      }
+    }
+
+    function renderHistory() {
+      const historyList = document.getElementById('history-list');
+      if (!historyList) return;
+      historyList.innerHTML = '';
+      const filterMonth = document.getElementById('filter-month').value;
+      const filterType = document.getElementById('filter-type').value;
+
+      let filtered = appData.transactions || [];
+      if (filterMonth) filtered = filtered.filter(t => (t.Tanggal || '').slice(0, 7) === filterMonth);
+      if (filterType !== 'All') filtered = filtered.filter(t => t.Jenis === filterType);
+
+      if (filtered.length === 0) {
+        historyList.innerHTML = `<div class="text-center py-4 text-xs text-[var(--text-muted)]">Tidak ada riwayat transaksi.</div>`;
+        return;
+      }
+
+      filtered.forEach(t => {
+        const isMasuk = t.Jenis === 'Pemasukan';
+        const colorClass = isMasuk ? 'text-[var(--accent-green)]' : 'text-[var(--accent-red)]';
+        const item = document.createElement('div');
+        item.className = 'p-2.5 border border-[var(--border-color)] rounded flex justify-between items-center text-xs';
+        item.innerHTML = `
+          <div>
+            <div class="font-bold">${t.Kategori} ${t.Catatan ? '(' + t.Catatan + ')' : ''}</div>
+            <div class="text-[10px] text-[var(--text-muted)]">${t.Tanggal}</div>
+          </div>
+          <div class="font-bold ${colorClass}">${isMasuk ? '+' : '-'}${formatRupiah(t.Nominal)}</div>
+        `;
+        historyList.appendChild(item);
+      });
+    }
+
+    function openAddDebtModal() {
+      document.getElementById('debt-nama').value = '';
+      document.getElementById('debt-nominal').value = '';
+      document.getElementById('debt-tempo').value = '';
+      document.getElementById('add-debt-modal').classList.remove('hidden');
+    }
+
+    function closeAddDebtModal() {
+      document.getElementById('add-debt-modal').classList.add('hidden');
+    }
+
+    async function saveDebt() {
+      const nama = document.getElementById('debt-nama').value.trim();
+      const jenis = document.getElementById('debt-jenis').value;
+      const rawNominal = document.getElementById('debt-nominal').value;
+      const nominal = getUnformattedNominal(rawNominal);
+      const tempo = document.getElementById('debt-tempo').value;
+
+      if (!nama || nominal <= 0) {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: 'Input Inkomplit',
+          text: 'Nama dan Nominal wajib diisi dengan benar.',
+          icon: 'warning'
+        });
+        return;
+      }
+
+      const debtObj = {
+        ID_Utang: 'DEBT-' + Date.now(),
+        Nama: nama,
+        Jenis: jenis,
+        Nominal: nominal,
+        Tempo: tempo
+      };
+
+      try {
+        Swal.fire({
+          title: 'Menyimpan Utang...',
+          text: 'Mengirim data ke RTK Wallet...',
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+        });
+
+        await callApi('saveDebt', debtObj);
+
+        if (!appData.debts) appData.debts = [];
+        appData.debts.push({
+          ...debtObj,
+          Terbayar: 0,
+          Status: 'Belum Lunas'
+        });
+
+        closeAddDebtModal();
+        renderExtra();
+
+        Swal.fire({
+          ...getSwalConfig(),
+          title: 'Berhasil',
+          text: 'Catatan utang/piutang berhasil disimpan!',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        });
+
+      } catch (err) {
+        console.error("Gagal menyimpan utang/piutang:", err);
+        Swal.fire({
+          ...getSwalConfig(),
+          title: 'Gagal',
+          text: 'Gagal menyimpan utang/piutang: ' + err.message,
+          icon: 'error'
+        });
+      }
+    }
+
+    function openPayDebtModal(id, nama, sisa) {
+      document.getElementById('pay-debt-id').value = id;
+      document.getElementById('pay-debt-target-info').innerText = `Pembayaran untuk: ${nama} (Sisa: ${formatRupiah(sisa)})`;
+      document.getElementById('pay-debt-nominal').value = '';
+      document.getElementById('pay-debt-modal').classList.remove('hidden');
+    }
+
+    function closePayDebtModal() {
+      document.getElementById('pay-debt-modal').classList.add('hidden');
+    }
+
+    async function processPayDebt() {
+      const id = document.getElementById('pay-debt-id').value;
+      const nominal = getUnformattedNominal(document.getElementById('pay-debt-nominal').value);
+      const catatSaldo = document.getElementById('pay-debt-catat-saldo').checked;
+
+      if (nominal <= 0) {
+        Swal.fire({ ...getSwalConfig(), title: 'Nominal Salah', text: 'Masukkan nominal pembayaran > 0.', icon: 'warning' });
+        return;
+      }
+
+      try {
+        Swal.fire({ title: 'Memproses Pembayaran...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        await callApi('payDebt', { ID_Utang: id, Nominal: nominal, CatatSaldo: catatSaldo });
+        closePayDebtModal();
+        await loadInitialData();
+        Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: 'Pembayaran berhasil diproses.', icon: 'success' });
+      } catch (err) {
+        Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
+      }
+    }
+
+    function renderExtra() {
+      const debtList = document.getElementById('debt-list');
+      if (!debtList) return;
+      debtList.innerHTML = '';
+
+      if (!appData.debts || appData.debts.length === 0) {
+        debtList.innerHTML = `<div class="text-center py-4 text-xs text-[var(--text-muted)]">Belum ada catatan utang/piutang.</div>`;
+      } else {
+        appData.debts.forEach(d => {
+          const item = document.createElement('div');
+          item.className = 'p-3 border border-[var(--border-color)] rounded text-xs space-y-1';
+          item.innerHTML = `
+            <div class="flex justify-between font-bold">
+              <span>${d.Nama || d.Nama_Pemberi_Pinjaman || 'Terikat'} (${d.Jenis})</span>
+              <span class="text-[var(--accent-orange)]">${formatRupiah(d.Nominal || d.Total_Utang)}</span>
+            </div>
+            <div class="text-[10px] text-[var(--text-muted)]">Tempo: ${d.Tempo || d.Tanggal_Jatuh_Tempo || '-'} | Status: ${d.Status || 'Belum Lunas'}</div>
+          `;
+          debtList.appendChild(item);
+        });
+      }
+      renderChart();
+    }
+
+    function renderChart() {
+      const canvas = document.getElementById('expenseChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (myChart) myChart.destroy();
+
+      const catTotals = {};
+      const now = new Date().toISOString().slice(0, 7);
+      if (appData.transactions) {
+        appData.transactions.forEach(t => {
+          if (t.Jenis === 'Pengeluaran' && (t.Tanggal || '').slice(0, 7) === now) {
+            catTotals[t.Kategori] = (catTotals[t.Kategori] || 0) + (parseFloat(t.Nominal) || 0);
+          }
+        });
+      }
+
+      const labels = Object.keys(catTotals);
+      const data = Object.values(catTotals);
+
+      myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels.length ? labels : ['Belum Ada'],
+          datasets: [{
+            data: data.length ? data : [1],
+            backgroundColor: ['#00FF66', '#FF4D4D', '#F59E0B', '#3B82F6', '#EC4899', '#8B5CF6']
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+    }
+
     function processSmartNLPText() {
-      const text = document.getElementById('smart-text-input').value;
+      const textEl = document.getElementById('smart-text-input');
+      const text = textEl ? textEl.value : '';
       if (!text || !text.trim()) {
         Swal.fire({ ...getSwalConfig(), title: 'Input Kosong', text: 'Ketik kalimat transaksi terlebih dahulu.', icon: 'info' });
         return;
@@ -1031,88 +1379,64 @@ function formatRupiahInput(inputEl) {
       sendSmartInputToBackend('text', text);
     }
 
-
     function startVoiceInput() {
       if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        Swal.fire({
-          ...getSwalConfig(),
-          title: 'Browser Tidak Mendukung',
-          text: 'Fitur suara tidak didukung browser ini. Gunakan Chrome di HP/PC.',
-          icon: 'warning'
-        });
+        Swal.fire({ ...getSwalConfig(), title: 'Browser Tidak Mendukung', text: 'Gunakan Chrome di HP/PC untuk fitur suara.', icon: 'warning' });
         return;
       }
-
-
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
       recognition.lang = 'id-ID';
       recognition.interimResults = false;
 
-
       const btnMic = document.getElementById('btn-mic-input');
-      btnMic.innerText = '🔴 MENDENGARKAN...';
-
+      if (btnMic) btnMic.innerText = '🔴 MENDENGARKAN...';
 
       recognition.start();
 
-
       recognition.onresult = function(event) {
-        btnMic.innerText = '🎤 [ MIC / SUARA ]';
+        if (btnMic) btnMic.innerText = '🎤 [ MIC / SUARA ]';
         const transcript = event.results[0][0].transcript;
         document.getElementById('smart-text-input').value = transcript;
         sendSmartInputToBackend('text', transcript);
       };
 
-
       recognition.onerror = function(event) {
-        btnMic.innerText = '🎤 [ MIC / SUARA ]';
-        let errMsg = 'Suara tidak terdeteksi.';
-        if (event.error === 'not-allowed') {
-          errMsg = 'Akses mikrofon diblokir browser. Buka Site Settings -> Allow Microphone.';
-        }
-        Swal.fire({ ...getSwalConfig(), title: 'Gagal Rekam Suara', text: errMsg, icon: 'error' });
+        if (btnMic) btnMic.innerText = '🎤 [ MIC / SUARA ]';
+        Swal.fire({ ...getSwalConfig(), title: 'Gagal Suara', text: 'Suara tidak terdeteksi.', icon: 'error' });
       };
-
 
       recognition.onend = function() {
-        btnMic.innerText = '🎤 [ MIC / SUARA ]';
+        if (btnMic) btnMic.innerText = '🎤 [ MIC / SUARA ]';
       };
     }
-
 
     function handleStrukUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
 
-
       const statusInd = document.getElementById('ai-status-indicator');
-      statusInd.classList.remove('hidden');
-
+      if (statusInd) statusInd.classList.remove('hidden');
 
       const reader = new FileReader();
       reader.onload = function(e) {
         const img = new Image();
         img.src = e.target.result;
         img.onload = function() {
-          // Compress image via Canvas to avoid memory payload limits
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           const maxWidth = 800;
           let width = img.width;
           let height = img.height;
 
-
           if (width > maxWidth) {
             height = Math.round((height * maxWidth) / width);
             width = maxWidth;
           }
 
-
           canvas.width = width;
           canvas.height = height;
           ctx.drawImage(img, 0, 0, width, height);
-
 
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
           sendSmartInputToBackend('image', compressedBase64);
@@ -1121,745 +1445,103 @@ function formatRupiahInput(inputEl) {
       reader.readAsDataURL(file);
     }
 
+    function sendSmartInputToBackend(type, content) {
+      const statusInd = document.getElementById('ai-status-indicator');
+      if (statusInd) statusInd.classList.remove('hidden');
 
-    async function sendSmartInputToBackend(type, content) {
-  const statusInd = document.getElementById('ai-status-indicator');
-  statusInd.classList.remove('hidden');
+      const categoriesList = appData.categories ? appData.categories.map(c => c.Nama_Kategori) : [];
 
-  const categoriesList = appData.categories.map(c => c.Nama_Kategori);
+      const payload = { type: type, content: content, categories: categoriesList };
 
-  const payload = {
-    type: type,
-    content: content,
-    categories: categoriesList
-  };
-
-  try {
-    // Panggil Gemini AI via Vercel (Fetch)
-    const parsedObj = await callApi('processSmartInputWithGemini', payload);
-
-    statusInd.classList.add('hidden');
-    applyParsedDataToForm(parsedObj);
-
-  } catch (err) {
-    statusInd.classList.add('hidden');
-    console.error("Gemini Smart Input Error:", err);
-    
-    // Tetap panggil fallback Regex parsing kamu jika AI error
-    fallbackManualRegexParsing(content);
-  }
-}
-
+      callApi('processSmartInputWithGemini', payload)
+        .then(parsedObj => {
+          if (statusInd) statusInd.classList.add('hidden');
+          applyParsedDataToForm(parsedObj);
+        })
+        .catch(err => {
+          if (statusInd) statusInd.classList.add('hidden');
+          fallbackManualRegexParsing(content);
+        });
+    }
 
     function applyParsedDataToForm(data) {
-  if (!data) return;
-
-  // 1. TEMBAK PAKSA TOMBOL JENIS TRANSAKSI & REFRESH DROPDOWN
-  if (data.jenis) {
-    const isPemasukan = data.jenis.toLowerCase().includes('masuk');
-    currentJenisInput = isPemasukan ? 'Pemasukan' : 'Pengeluaran';
-    
-    const btnKeluar = document.getElementById('btn-pengeluaran');
-    const btnMasuk = document.getElementById('btn-pemasukan');
-    
-    // Ubah warna tombol langsung!
-    if (btnKeluar && btnMasuk) {
-      if (isPemasukan) {
-        btnKeluar.className = "term-btn text-xs py-2.5 opacity-60";
-        btnMasuk.className = "term-btn term-btn-green text-xs py-2.5";
-      } else {
-        btnKeluar.className = "term-btn term-btn-red text-xs py-2.5";
-        btnMasuk.className = "term-btn text-xs py-2.5 opacity-60";
+      if (!data) return;
+      if (data.jenis) setJenis(data.jenis);
+      if (data.kategori) {
+        const catSelect = document.getElementById('input-kategori');
+        if (catSelect) {
+          const options = Array.from(catSelect.options);
+          const matchOpt = options.find(o => 
+            o.value.toLowerCase().includes(data.kategori.toLowerCase()) || 
+            data.kategori.toLowerCase().includes(o.value.toLowerCase())
+          );
+          if (matchOpt) catSelect.value = matchOpt.value;
+        }
       }
-    }
-    
-    // Wajib refresh isi dropdown kategori (agar Gaji/Makanan update)
-    if (typeof populateCategoryDropdown === 'function') {
-      populateCategoryDropdown();
-    }
-  }
+      if (data.nominal) {
+        const nominalInput = document.getElementById('input-nominal');
+        if (nominalInput) {
+          nominalInput.value = data.nominal;
+          formatRupiahInput(nominalInput);
+        }
+      }
+      if (data.catatan) {
+        const catatanInput = document.getElementById('input-catatan');
+        if (catatanInput) catatanInput.value = data.catatan;
+      }
+      if (data.tanggal) {
+        const tglInput = document.getElementById('input-tanggal');
+        if (tglInput) tglInput.value = data.tanggal;
+      }
 
-  // 2. SET KATEGORI (Dijalankan SETELAH dropdown di-refresh)
-  if (data.kategori) {
-    const catSelect = document.getElementById('input-kategori');
-    if (catSelect) {
-      const targetCat = data.kategori.toLowerCase();
-      const options = Array.from(catSelect.options);
-      
-      const matchOpt = options.find(o => {
-        const optVal = o.value.toLowerCase();
-        return optVal.includes(targetCat) || targetCat.includes(optVal) ||
-               (targetCat.includes('trans') && optVal.includes('trans')) ||
-               (targetCat.includes('gaji') && optVal.includes('gaji'));
+      Swal.fire({
+        ...getSwalConfig(),
+        title: '🤖 Gemini AI Selesai!',
+        text: 'Form telah terisi otomatis. Silakan periksa & SIMPAN.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false
       });
-
-      if (matchOpt) {
-        catSelect.value = matchOpt.value;
-      }
     }
-  }
-
-  // 3. SET NOMINAL
-  if (data.nominal !== undefined && data.nominal !== null) {
-    const nominalInput = document.getElementById('input-nominal');
-    if (nominalInput) {
-      let rawNominal = data.nominal.toString().replace(/\D/g, '');
-      let numVal = parseInt(rawNominal, 10) || 0;
-
-      // Safe fallback kalau nominal terlalu kecil
-      if (numVal > 0 && numVal < 1000) numVal = numVal * 1000;
-
-      nominalInput.value = numVal;
-      if (typeof formatRupiahInput === 'function') {
-        formatRupiahInput(nominalInput);
-      }
-    }
-  }
-
-  // 4. SET CATATAN BERSIH (Paksa Buang Base64 Gambar)
-  if (data.catatan) {
-    const catatanInput = document.getElementById('input-catatan');
-    if (catatanInput) {
-      let cat = data.catatan.toString();
-      
-      if (cat.includes('base64') || cat.startsWith('data:') || cat.length > 100) {
-        cat = 'Belanja / Transaksi';
-      } else {
-        cat = cat.replace(/\b(30rb|20juta|30juta|30.000|20.000.000|70ribu)\b/gi, '').trim();
-      }
-      catatanInput.value = cat;
-    }
-  }
-
-  // 5. SET TANGGAL
-  if (data.tanggal) {
-    const tglInput = document.getElementById('input-tanggal');
-    if (tglInput) tglInput.value = data.tanggal;
-  }
-
-  // POPUP SUKSES
-  if (typeof Swal !== 'undefined' && typeof getSwalConfig === 'function') {
-    Swal.fire({
-      ...getSwalConfig(),
-      title: '🤖 Data Masuk!',
-      text: 'Form telah diisi otomatis, silakan klik SIMPAN.',
-      icon: 'success',
-      timer: 2000,
-      showConfirmButton: false
-    });
-  }
-}
-
 
     function fallbackManualRegexParsing(text) {
       if (typeof text !== 'string') return;
-     
       let clean = text.toLowerCase();
-      // Extract numbers and multipliers (ignoring quantity suffixes)
       let matchRibuan = clean.match(/(\d+[\d\.,]*)\s*(ribu|rb|k|jt|juta)/i);
       if (matchRibuan) {
         let num = parseFloat(matchRibuan[1].replace(',', '.'));
         let unit = matchRibuan[2].toLowerCase();
         if (['ribu', 'rb', 'k'].includes(unit)) num *= 1000;
         if (['juta', 'jt'].includes(unit)) num *= 1000000;
-
-
-        document.getElementById('input-nominal').value = Number(num).toLocaleString('id-ID');
-      } else {
-        let allNumbers = clean.match(/\d+/g);
-        if (allNumbers) {
-          let nums = allNumbers.map(Number);
-          let maxVal = Math.max(...nums);
-          document.getElementById('input-nominal').value = Number(maxVal).toLocaleString('id-ID');
-        }
+        const nomEl = document.getElementById('input-nominal');
+        if (nomEl) nomEl.value = Number(num).toLocaleString('id-ID');
       }
-
-
-      document.getElementById('input-catatan').value = text;
-      Swal.fire({ ...getSwalConfig(), title: 'Form Terisi', text: 'Data telah terisi di form manual bawah.', icon: 'info' });
+      const noteEl = document.getElementById('input-catatan');
+      if (noteEl) noteEl.value = text;
+      Swal.fire({ ...getSwalConfig(), title: 'Form Terisi', text: 'Data terisi via parser sederhana.', icon: 'info' });
     }
 
-
-    async function simpanTransaksi() {
-  const nominalRaw = document.getElementById('input-nominal').value;
-  const nominal = getUnformattedNominal(nominalRaw);
-  const kategori = document.getElementById('input-kategori').value;
-  const tanggal = document.getElementById('input-tanggal').value || new Date().toISOString().slice(0, 10);
-  const catatan = document.getElementById('input-catatan').value;
-
-  if (!nominal || nominal <= 0) {
-    Swal.fire({ ...getSwalConfig(), title: 'Error', text: 'Nominal transaksi harus lebih dari 0', icon: 'error' });
-    return;
-  }
-
-  const txObj = {
-    tanggal: tanggal,
-    jenis: currentJenisInput,
-    kategori: kategori,
-    nominal: nominal,
-    catatan: catatan
-  };
-
-  try {
-    // Indikator loading saat proses simpan ke server
-    Swal.fire({
-      title: 'Menyimpan...',
-      text: 'Mengirim data ke RTK Wallet...',
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading()
-    });
-
-    // Panggil API saveTransaction via Vercel (Fetch)
-    await callApi('saveTransaction', txObj);
-
-    Swal.fire({ ...getSwalConfig(), title: 'Berhasil', text: 'Transaksi berhasil disimpan!', icon: 'success' });
-    
-    // Reset Form Input
-    document.getElementById('input-nominal').value = '';
-    document.getElementById('input-catatan').value = '';
-    document.getElementById('smart-text-input').value = '';
-
-    // Refresh Data & Pindah Halaman
-    await loadInitialData();
-    nav('dashboard');
-
-  } catch (err) {
-    console.error("Gagal menyimpan transaksi:", err);
-    Swal.fire({ 
-      ...getSwalConfig(), 
-      title: 'Gagal', 
-      text: 'Gagal menyimpan transaksi: ' + err.message, 
-      icon: 'error' 
-    });
-  }
-}
-
-    function renderHistory() {
-      const container = document.getElementById('history-list');
-      container.innerHTML = '';
-
-
-      const monthVal = document.getElementById('filter-month').value || new Date().toISOString().slice(0, 7);
-      document.getElementById('filter-month').value = monthVal;
-      const typeVal = document.getElementById('filter-type').value;
-
-
-      const filtered = appData.transactions.filter(t => {
-        const matchMonth = (t.Tanggal || '').slice(0, 7) === monthVal;
-        const matchType = typeVal === 'All' || t.Jenis === typeVal;
-        return matchMonth && matchType;
-      });
-
-
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center text-xs text-[var(--text-muted)] py-6">> TIDAK ADA RECORD TRANSAKSI <</div>`;
-        return;
-      }
-
-
-      filtered.forEach(t => {
-        const isIncome = t.Jenis === 'Pemasukan';
-        const amountClass = isIncome ? 'text-[var(--accent-green)]' : 'text-[var(--accent-red)]';
-        const prefix = isIncome ? '+' : '-';
-
-
-        const item = document.createElement('div');
-        item.className = 'flex justify-between items-center py-2 border-b border-dashed border-[var(--border-color)] text-xs';
-        item.innerHTML = `
-          <div>
-            <div class="font-bold text-[var(--text-main)]">${t.Kategori}</div>
-            <div class="text-[10px] text-[var(--text-muted)]">${t.Tanggal} • ${t.Catatan || '-'}</div>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="font-bold ${amountClass}">${prefix}${formatRupiah(t.Nominal)}</span>
-            <button onclick="deleteTx('${t.ID_Transaksi}')" class="text-[var(--accent-red)] hover:underline font-bold text-sm">🗑️</button>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-
-    function deleteTx(id) {
-  Swal.fire({
-    ...getSwalConfig(),
-    title: 'Hapus Transaksi?',
-    text: 'Data transaksi ini akan dihapus permanen.',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Hapus',
-    cancelButtonText: 'Batal'
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        Swal.fire({
-          title: 'Menghapus...',
-          text: 'Mengubah data di server...',
-          allowOutsideClick: false,
-          didOpen: () => Swal.showLoading()
-        });
-
-        // Panggil API deleteTransaction via Vercel (Fetch)
-        await callApi('deleteTransaction', id);
-
-        Swal.fire({
-          ...getSwalConfig(),
-          title: 'Terhapus!',
-          text: 'Transaksi telah berhasil dihapus.',
-          icon: 'success',
-          timer: 1200,
-          showConfirmButton: false
-        });
-
-        // Reload data terbaru dari Google Sheets
-        await loadInitialData();
-
-      } catch (err) {
-        console.error("Gagal menghapus transaksi:", err);
-        Swal.fire({
-          ...getSwalConfig(),
-          title: 'Gagal',
-          text: 'Gagal menghapus transaksi: ' + err.message,
-          icon: 'error'
-        });
-      }
-    }
-  });
-}
-
-    function renderPlan() {
-      const container = document.getElementById('plan-list');
-      container.innerHTML = '';
-
-
-      appData.categories.filter(c => c.Jenis === 'Pengeluaran').forEach(cat => {
-        const budgetObj = appData.budgets.find(b => b.ID_Kategori === cat.ID_Kategori || b.ID_Kategori === cat.Nama_Kategori);
-        const targetVal = budgetObj ? parseFloat(budgetObj.Target_Anggaran) : 0;
-
-
-        const currentMonthStr = new Date().toISOString().slice(0, 7);
-        let usedVal = 0;
-        appData.transactions.forEach(t => {
-          if (t.Jenis === 'Pengeluaran' && t.Kategori === cat.Nama_Kategori && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
-            usedVal += parseFloat(t.Nominal) || 0;
-          }
-        });
-
-
-        const percent = targetVal > 0 ? Math.min(Math.round((usedVal / targetVal) * 100), 100) : 0;
-
-
-        const card = document.createElement('div');
-        card.className = 'term-box p-3 space-y-2';
-        card.innerHTML = `
-          <div class="flex justify-between items-center text-xs">
-            <span class="font-bold">${cat.Ikon || '📌'} ${cat.Nama_Kategori}</span>
-            <span class="text-[var(--text-muted)]">Target: ${formatRupiah(targetVal)}</span>
-          </div>
-          <div class="top-budget-bar-bg">
-            <div class="top-budget-bar-fill" style="width: ${percent}%;">
-              <span class="top-budget-bar-percent">${percent}%</span>
-            </div>
-          </div>
-          <div class="flex justify-between items-center text-[10px] text-[var(--text-muted)]">
-            <span>Terpakai Bulan Ini: ${formatRupiah(usedVal)}</span>
-            <button onclick="promptEditBudget('${cat.ID_Kategori}', '${cat.Nama_Kategori}', ${targetVal})" class="term-btn text-[10px] px-2 py-0.5">
-              [ SET TARGET ]
-            </button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-
-    function promptEditBudget(idCat, namaCat, currentTarget) {
+    function triggerAIAnalysis() {
       Swal.fire({
         ...getSwalConfig(),
-        title: `Set Target: ${namaCat}`,
-        input: 'number',
-        inputValue: currentTarget,
-        showCancelButton: true,
-        confirmButtonText: 'Simpan'
-      }).then((result) => {
-        if (result.isConfirmed && result.value) {
-          if (typeof google !== 'undefined' && google.script && google.script.run) {
-            google.script.run
-              .withSuccessHandler(() => loadInitialData())
-              .saveBudget(idCat, result.value);
-          } else {
-            const existing = appData.budgets.find(b => b.ID_Kategori === idCat);
-            if (existing) existing.Target_Anggaran = result.value;
-            else appData.budgets.push({ Bulan_Tahun: 'PERMANENT', ID_Kategori: idCat, Target_Anggaran: result.value });
-            renderPlan();
-          }
-        }
-      });
-    }
-
-
-    function renderExtra() {
-      const ctx = document.getElementById('expenseChart').getContext('2d');
-      const currentMonthStr = new Date().toISOString().slice(0, 7);
-
-
-      const catMap = {};
-      appData.transactions.forEach(t => {
-        if (t.Jenis === 'Pengeluaran' && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
-          catMap[t.Kategori] = (catMap[t.Kategori] || 0) + (parseFloat(t.Nominal) || 0);
-        }
+        title: '🤖 Bobib AI Terminal',
+        html: '<div class="p-3 text-left text-xs leading-relaxed" id="ai-modal-content">> Mengambil analisis keuangan...<span class="cursor-blink">█</span></div>',
+        showConfirmButton: true,
+        confirmButtonText: '[ TUTUP ]'
       });
 
-
-      const labels = Object.keys(catMap);
-      const dataVals = Object.values(catMap);
-
-
-      if (myChart) myChart.destroy();
-
-
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: labels.length > 0 ? labels : ['Belum Ada Transaksi'],
-          datasets: [{
-            data: dataVals.length > 0 ? dataVals : [1],
-            backgroundColor: ['#00FF66', '#FF4D4D', '#F59E0B', '#3B82F6', '#EC4899', '#8B5CF6']
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              labels: { color: isDark ? '#00FF66' : '#1B3D2F', font: { family: 'Share Tech Mono' } }
-            }
-          }
-        }
-      });
-
-
-      const debtContainer = document.getElementById('debt-list');
-      debtContainer.innerHTML = '';
-
-
-      if (!appData.debts || appData.debts.length === 0) {
-        debtContainer.innerHTML = `<div class="text-center text-xs text-[var(--text-muted)] py-4">> BELUM ADA RECORD UTANG / PIUTANG <</div>`;
-        return;
-      }
-
-
-      appData.debts.forEach(d => {
-        const isLunas = d.Status === 'Lunas';
-        const card = document.createElement('div');
-        card.className = 'term-box p-3 space-y-2 text-xs';
-        card.innerHTML = `
-          <div class="flex justify-between items-center">
-            <span class="font-bold">${d.Jenis.toUpperCase()}: ${d.Nama_Pemberi_Pinjaman}</span>
-            <span class="term-btn text-[10px] px-2 py-0.5 ${isLunas ? 'term-btn-green' : 'term-btn-red'}">${d.Status}</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-[11px] text-[var(--text-muted)]">
-            <div>Total: ${formatRupiah(d.Total_Utang)}</div>
-            <div>Sisa: <b class="text-[var(--accent-red)]">${formatRupiah(d.Sisa_Utang)}</b></div>
-          </div>
-          <div class="flex justify-between items-center pt-2 border-t border-dashed border-[var(--border-color)]">
-            <span class="text-[10px] text-[var(--text-muted)]">Tempo: ${d.Tanggal_Jatuh_Tempo || '-'}</span>
-            <div class="flex gap-2">
-              ${!isLunas ? `<button onclick="openPayDebtModal('${d.ID_Utang}', '${d.Nama_Pemberi_Pinjaman}', ${d.Sisa_Utang})" class="term-btn term-btn-green text-[10px] px-2 py-0.5">[ BAYAR ]</button>` : ''}
-              <button onclick="deleteDebtRecord('${d.ID_Utang}')" class="term-btn term-btn-red text-[10px] px-2 py-0.5">🗑️</button>
-            </div>
-          </div>
-        `;
-        debtContainer.appendChild(card);
-      });
+      callApi('getAIAnalysis', {})
+        .then(res => {
+          const content = document.getElementById('ai-modal-content');
+          if (content) content.innerHTML = `> ${res}<span class="cursor-blink">█</span>`;
+        })
+        .catch(() => {
+          const content = document.getElementById('ai-modal-content');
+          if (content) content.innerHTML = `> Pengeluaran bulan ini terkendali dengan baik brow!<span class="cursor-blink">█</span>`;
+        });
     }
 
-
-    // --- BUKA MODAL UTANG ---
-function openAddDebtModal() {
-  document.getElementById('debt-nama').value = '';
-  document.getElementById('debt-nominal').value = '';
-  document.getElementById('debt-tempo').value = '';
-  document.getElementById('add-debt-modal').classList.remove('hidden');
-}
-
-// --- TUTUP MODAL UTANG ---
-function closeAddDebtModal() {
-  document.getElementById('add-debt-modal').classList.add('hidden');
-}
-
-// --- SIMPAN RECORD UTANG / PIUTANG (SYNC SPREADSHEET) ---
-async function saveDebt() {
-  const nama = document.getElementById('debt-nama').value.trim();
-  const jenis = document.getElementById('debt-jenis').value;
-  const rawNominal = document.getElementById('debt-nominal').value;
-  const nominal = getUnformattedNominal(rawNominal);
-  const tempo = document.getElementById('debt-tempo').value;
-
-  if (!nama || nominal <= 0) {
-    Swal.fire({
-      ...getSwalConfig(),
-      title: 'Input Inkomplit',
-      text: 'Nama dan Nominal wajib diisi dengan benar.',
-      icon: 'warning'
-    });
-    return;
-  }
-
-  // Struktur objek disesuaikan dengan handler Apps Script
-  const debtObj = {
-    ID_Utang: 'DEBT-' + Date.now(),
-    Nama: nama,
-    Jenis: jenis,
-    Nominal: nominal,
-    Tempo: tempo
-  };
-
-  try {
-    Swal.fire({
-      title: 'Menyimpan Utang...',
-      text: 'Mengirim data ke RTK Wallet...',
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading()
-    });
-
-    // Kirim data ke Google Apps Script via Vercel Proxy
-    await callApi('saveDebt', debtObj);
-
-    // Update state lokal
-    if (!appData.debts) appData.debts = [];
-    appData.debts.push({
-      ...debtObj,
-      Terbayar: 0,
-      Status: 'Belum Lunas'
-    });
-
-    closeAddDebtModal();
-    renderExtra();
-
-    Swal.fire({
-      ...getSwalConfig(),
-      title: 'Berhasil',
-      text: 'Catatan utang/piutang berhasil disimpan!',
-      icon: 'success',
-      timer: 1500,
-      showConfirmButton: false
-    });
-
-  } catch (err) {
-    console.error("Gagal menyimpan utang/piutang:", err);
-    Swal.fire({
-      ...getSwalConfig(),
-      title: 'Gagal',
-      text: 'Gagal menyimpan utang/piutang: ' + err.message,
-      icon: 'error'
-    });
-  }
-}
-
-
-    function openPayDebtModal(id, nama, sisa) {
-      document.getElementById('pay-debt-id').value = id;
-      document.getElementById('pay-debt-target-info').innerText = `Pembayaran untuk: ${nama} (Sisa: ${formatRupiah(sisa)})`;
-      document.getElementById('pay-debt-modal').classList.remove('hidden');
-    }
-    function closePayDebtModal() {
-      document.getElementById('pay-debt-modal').classList.add('hidden');
-    }
-
-
-    function processPayDebt() {
-      const id = document.getElementById('pay-debt-id').value;
-      const nominal = document.getElementById('pay-debt-nominal').value;
-      const catatSaldo = document.getElementById('pay-debt-catat-saldo').checked;
-
-
-      if (!nominal) return;
-
-
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run
-          .withSuccessHandler(() => {
-            closePayDebtModal();
-            loadInitialData();
-          })
-          .payDebt(id, nominal, catatSaldo);
-      } else {
-        const debt = appData.debts.find(d => d.ID_Utang === id);
-        if (debt) {
-          debt.Sudah_Dibayar = (parseFloat(debt.Sudah_Dibayar) || 0) + parseFloat(nominal);
-          debt.Sisa_Utang = parseFloat(debt.Total_Utang) - debt.Sudah_Dibayar;
-          if (debt.Sisa_Utang <= 0) debt.Status = 'Lunas';
-        }
-        closePayDebtModal();
-        renderExtra();
-      }
-    }
-
-
-    function deleteDebtRecord(id) {
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run.withSuccessHandler(() => loadInitialData()).deleteDebt(id);
-      } else {
-        appData.debts = appData.debts.filter(d => d.ID_Utang !== id);
-        renderExtra();
-      }
-    }
-
-
-    function openManageCategoryModal() {
-      renderCategoryListModal();
-      document.getElementById('category-modal').classList.remove('hidden');
-    }
-    function closeManageCategoryModal() {
-      document.getElementById('category-modal').classList.add('hidden');
-    }
-
-
-    function renderCategoryListModal() {
-      const container = document.getElementById('modal-category-list');
-      container.innerHTML = '';
-
-
-      appData.categories.forEach(c => {
-        const row = document.createElement('div');
-        row.className = 'flex justify-between items-center text-xs p-2 term-box';
-        row.innerHTML = `
-          <span>${c.Ikon || '📌'} ${c.Nama_Kategori} (${c.Jenis})</span>
-          <button onclick="deleteCategory('${c.ID_Kategori}')" class="term-btn term-btn-red text-[10px] px-2 py-0.5">🗑️</button>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-
-    // --- TAMBAH KATEGORI (SYNC SHEET) ---
-async function saveCategory() {
-  const iconInput = document.getElementById('cat-icon-input').value.trim() || '📌';
-  const nameInput = document.getElementById('cat-name-input').value.trim();
-  const typeInput = document.getElementById('cat-type-input').value;
-
-  if (!nameInput) {
-    Swal.fire({ ...getSwalConfig(), title: 'Input Kosong', text: 'Nama kategori wajib diisi!', icon: 'warning' });
-    return;
-  }
-
-  const isExist = appData.categories.some(c => c.Nama_Kategori.toLowerCase() === nameInput.toLowerCase());
-  if (isExist) {
-    Swal.fire({ ...getSwalConfig(), title: 'Sudah Ada', text: 'Kategori ini sudah terdaftar.', icon: 'info' });
-    return;
-  }
-
-  const newCat = { ID_Kategori: nameInput, Nama_Kategori: nameInput, Jenis: typeInput, Ikon: iconInput };
-
-  try {
-    Swal.fire({ title: 'Menyimpan Kategori...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-    await callApi('saveCategory', newCat);
-    appData.categories.push(newCat);
-    
-    document.getElementById('cat-icon-input').value = '';
-    document.getElementById('cat-name-input').value = '';
-    
-    populateCategoryDropdown();
-    renderModalCategoryList(); // Fix nama fungsi di sini
-    renderDashboard();
-    
-    Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: `Kategori '${nameInput}' tersimpan ke Sheet.`, icon: 'success' });
-  } catch (err) {
-    Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
-  }
-}
-
-async function deleteCategory(namaKategori) {
-  const result = await Swal.fire({
-    ...getSwalConfig(),
-    title: 'Hapus Kategori?',
-    text: `Hapus kategori '${namaKategori}' dari Sheet?`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Ya, Hapus!',
-    cancelButtonText: 'Batal'
-  });
-
-  if (result.isConfirmed) {
-    try {
-      Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-      await callApi('deleteCategory', { Nama_Kategori: namaKategori });
-      appData.categories = appData.categories.filter(c => c.Nama_Kategori !== namaKategori);
-      
-      populateCategoryDropdown();
-      renderModalCategoryList(); // Fix nama fungsi di sini
-      renderDashboard();
-      
-      Swal.fire({ ...getSwalConfig(), title: 'Terhapus!', text: 'Kategori berhasil dihapus.', icon: 'success' });
-    } catch (err) {
-      Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
-    }
-  }
-}
-
-
-   async function triggerAIAnalysis() {
-  Swal.fire({
-    ...getSwalConfig(),
-    title: '🤖 Bobib AI Terminal',
-    html: '<div class="p-3 text-left text-xs leading-relaxed" id="ai-modal-content">> Mengambil analisis keuangan bulan ini...<span class="cursor-blink">█</span></div>',
-    showConfirmButton: true,
-    confirmButtonText: '[ TUTUP ]'
-  });
-
-  const now = new Date();
-  const currentMonthStr = now.toISOString().slice(0, 7);
-
-  let totalMasuk = 0, totalKeluar = 0;
-  const catMap = {};
-
-  appData.transactions.forEach(t => {
-    if ((t.Tanggal || '').slice(0, 7) === currentMonthStr) {
-      const nom = parseFloat(t.Nominal) || 0;
-      if (t.Jenis === 'Pemasukan') totalMasuk += nom;
-      if (t.Jenis === 'Pengeluaran') {
-        totalKeluar += nom;
-        catMap[t.Kategori] = (catMap[t.Kategori] || 0) + nom;
-      }
-    }
-  });
-
-  let topCat = '-', topNominal = 0;
-  for (let cat in catMap) {
-    if (catMap[cat] > topNominal) {
-      topNominal = catMap[cat];
-      topCat = cat;
-    }
-  }
-
-  const summaryObj = {
-    pemasukan: totalMasuk.toLocaleString('id-ID'),
-    pengeluaran: totalKeluar.toLocaleString('id-ID'),
-    saldo: (totalMasuk - totalKeluar).toLocaleString('id-ID'),
-    topKategori: topCat,
-    topNominal: topNominal.toLocaleString('id-ID')
-  };
-
-  try {
-    // Panggil Bobib AI via callApi ke Apps Script
-    const aiRes = await callApi('getAIAnalysis', summaryObj);
-    
-    const el = document.getElementById('ai-modal-content');
-    if (el) el.innerHTML = `> ${aiRes}<span class="cursor-blink">█</span>`;
-  } catch (err) {
-    console.error("Bobib AI Analysis Error:", err);
-    const el = document.getElementById('ai-modal-content');
-    if (el) el.innerHTML = `> Pengeluaran bulan ini berjalan stabil. Terus catat keuanganmu secara rutin ya brow!<span class="cursor-blink">█</span>`;
-  }
-}
-
-window.onload = function() {
-  document.getElementById('input-tanggal').value = new Date().toISOString().slice(0, 10);
-  document.getElementById('filter-month').value = new Date().toISOString().slice(0, 7);
-  loadInitialData();
-};
+    window.onload = function() { loadInitialData(); };
   </script>
 </body>
 </html>
