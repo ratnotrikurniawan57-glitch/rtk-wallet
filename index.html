@@ -1143,50 +1143,82 @@
 
 
     function applyParsedDataToForm(data) {
-      if (!data) return;
+  if (!data) return;
 
-
-      if (data.jenis) setJenis(data.jenis);
-     
-      if (data.kategori) {
-        const catSelect = document.getElementById('input-kategori');
-        const options = Array.from(catSelect.options);
-        const matchOpt = options.find(o =>
-          o.value.toLowerCase().includes(data.kategori.toLowerCase()) ||
-          data.kategori.toLowerCase().includes(o.value.toLowerCase())
-        );
-        if (matchOpt) {
-          catSelect.value = matchOpt.value;
-        }
-      }
-
-
-      if (data.nominal) {
-        const nominalInput = document.getElementById('input-nominal');
-        nominalInput.value = data.nominal;
-        formatRupiahInput(nominalInput);
-      }
-
-
-      if (data.catatan) {
-        document.getElementById('input-catatan').value = data.catatan;
-      }
-
-
-      if (data.tanggal) {
-        document.getElementById('input-tanggal').value = data.tanggal;
-      }
-
-
-      Swal.fire({
-        ...getSwalConfig(),
-        title: '🤖 Gemini AI Selesai!',
-        text: 'Form manual di bawah telah terisi otomatis. Silakan periksa dan klik SIMPAN.',
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false
-      });
+  // 1. SET JENIS (Pemasukan vs Pengeluaran)
+  // Memastikan jika AI kirim "Pemasukan", UI otomatis pindah ke Pemasukan
+  if (data.jenis) {
+    if (typeof setJenis === 'function') {
+      setJenis(data.jenis);
+    } else if (typeof setJenisTx === 'function') {
+      setJenisTx(data.jenis);
     }
+  }
+
+  // 2. SET KATEGORI
+  if (data.kategori) {
+    const catSelect = document.getElementById('input-kategori');
+    if (catSelect) {
+      const options = Array.from(catSelect.options);
+      const matchOpt = options.find(o =>
+        o.value.toLowerCase().includes(data.kategori.toLowerCase()) ||
+        data.kategori.toLowerCase().includes(o.value.toLowerCase())
+      );
+      if (matchOpt) {
+        catSelect.value = matchOpt.value;
+      }
+    }
+  }
+
+  // 3. SET NOMINAL
+  if (data.nominal !== undefined && data.nominal !== null) {
+    const nominalInput = document.getElementById('input-nominal');
+    if (nominalInput) {
+      // Pastikan hanya angka bersih yang dimasukkan
+      let rawNominal = data.nominal.toString().replace(/\D/g, '');
+      let numVal = parseInt(rawNominal, 10) || 0;
+      
+      // Pengaman jika AI ngaco kirim angka kecil (<1000) untuk teks ribuan
+      if (numVal > 0 && numVal < 1000 && payloadType !== 'image') {
+        numVal = numVal * 1000;
+      }
+      
+      nominalInput.value = numVal;
+      if (typeof formatRupiahInput === 'function') {
+        formatRupiahInput(nominalInput); // Otomatis ubah jadi ber-titik (20.000.000)
+      }
+    }
+  }
+
+  // 4. SET CATATAN (Dibersihkan dari string gambar Base64)
+  if (data.catatan) {
+    const catatanInput = document.getElementById('input-catatan');
+    if (catatanInput) {
+      let catatanClean = data.catatan;
+      // Jika nyasar teks Base64 gambar / terlalu panjang, ganti teks standar
+      if (catatanClean.startsWith('data:image') || catatanClean.length > 150) {
+        catatanClean = 'Belanja Struk / Nota';
+      }
+      catatanInput.value = catatanClean;
+    }
+  }
+
+  // 5. SET TANGGAL
+  if (data.tanggal) {
+    const tglInput = document.getElementById('input-tanggal');
+    if (tglInput) tglInput.value = data.tanggal;
+  }
+
+  // POPUP NOTIFIKASI
+  Swal.fire({
+    ...getSwalConfig(),
+    title: '🤖 Gemini AI Selesai!',
+    text: 'Form manual di bawah telah terisi otomatis. Silakan periksa dan klik SIMPAN.',
+    icon: 'success',
+    timer: 2000,
+    showConfirmButton: false
+  });
+}
 
 
     function fallbackManualRegexParsing(text) {
