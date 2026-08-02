@@ -1144,23 +1144,36 @@
     function applyParsedDataToForm(data) {
   if (!data) return;
 
-  // 1. SET JENIS (Pemasukan vs Pengeluaran)
+  // 1. TEMBAK PAKSA TOMBOL JENIS TRANSAKSI & REFRESH DROPDOWN
   if (data.jenis) {
-    // Normalisasi huruf kapital/kecil agar cocok 100%
-    const jenisFormatted = data.jenis.toString().toLowerCase().includes('masuk') 
-      ? 'Pemasukan' 
-      : 'Pengeluaran';
-      
-    if (typeof setJenis === 'function') {
-      setJenis(jenisFormatted); // Menjalankan tombol UI & populateCategoryDropdown
+    const isPemasukan = data.jenis.toLowerCase().includes('masuk');
+    currentJenisInput = isPemasukan ? 'Pemasukan' : 'Pengeluaran';
+    
+    const btnKeluar = document.getElementById('btn-pengeluaran');
+    const btnMasuk = document.getElementById('btn-pemasukan');
+    
+    // Ubah warna tombol langsung!
+    if (btnKeluar && btnMasuk) {
+      if (isPemasukan) {
+        btnKeluar.className = "term-btn text-xs py-2.5 opacity-60";
+        btnMasuk.className = "term-btn term-btn-green text-xs py-2.5";
+      } else {
+        btnKeluar.className = "term-btn term-btn-red text-xs py-2.5";
+        btnMasuk.className = "term-btn text-xs py-2.5 opacity-60";
+      }
+    }
+    
+    // Wajib refresh isi dropdown kategori (agar Gaji/Makanan update)
+    if (typeof populateCategoryDropdown === 'function') {
+      populateCategoryDropdown();
     }
   }
 
-  // 2. SET KATEGORI (Dijalankan SETELAH setJenis agar dropdown tidak ter-reset!)
+  // 2. SET KATEGORI (Dijalankan SETELAH dropdown di-refresh)
   if (data.kategori) {
     const catSelect = document.getElementById('input-kategori');
     if (catSelect) {
-      const targetCat = data.kategori.toString().toLowerCase();
+      const targetCat = data.kategori.toLowerCase();
       const options = Array.from(catSelect.options);
       
       const matchOpt = options.find(o => {
@@ -1183,33 +1196,28 @@
       let rawNominal = data.nominal.toString().replace(/\D/g, '');
       let numVal = parseInt(rawNominal, 10) || 0;
 
-      // Safe fallback jika AI salah kirim angka kecil (<1000) untuk teks ribuan
-      if (numVal > 0 && numVal < 1000) {
-        numVal = numVal * 1000;
-      }
+      // Safe fallback kalau nominal terlalu kecil
+      if (numVal > 0 && numVal < 1000) numVal = numVal * 1000;
 
       nominalInput.value = numVal;
       if (typeof formatRupiahInput === 'function') {
-        formatRupiahInput(nominalInput); // Ubah visual ke 20.000.000
+        formatRupiahInput(nominalInput);
       }
     }
   }
 
-  // 4. SET CATATAN (Sapu bersih Base64 Gambar & Teks Mentah)
+  // 4. SET CATATAN BERSIH (Paksa Buang Base64 Gambar)
   if (data.catatan) {
     const catatanInput = document.getElementById('input-catatan');
     if (catatanInput) {
-      let catatanClean = data.catatan.toString();
-
-      // Deteksi Base64 gambar lebih ketat (pakai includes / length)
-      if (catatanClean.includes('base64') || catatanClean.startsWith('data:') || catatanClean.length > 100) {
-        catatanClean = 'Belanja Struk / Nota';
+      let cat = data.catatan.toString();
+      
+      if (cat.includes('base64') || cat.startsWith('data:') || cat.length > 100) {
+        cat = 'Belanja / Transaksi';
       } else {
-        // Hapus nominal angka mentah jika masih nyangkut di catatan
-        catatanClean = catatanClean.replace(/\b(30rb|20juta|30juta|30.000|20.000.000|70ribu)\b/gi, '').trim();
+        cat = cat.replace(/\b(30rb|20juta|30juta|30.000|20.000.000|70ribu)\b/gi, '').trim();
       }
-
-      catatanInput.value = catatanClean;
+      catatanInput.value = cat;
     }
   }
 
@@ -1219,12 +1227,12 @@
     if (tglInput) tglInput.value = data.tanggal;
   }
 
-  // POPUP NOTIFIKASI SUKSES
+  // POPUP SUKSES
   if (typeof Swal !== 'undefined' && typeof getSwalConfig === 'function') {
     Swal.fire({
       ...getSwalConfig(),
-      title: '🤖 Gemini AI Selesai!',
-      text: 'Form manual di bawah telah terisi otomatis. Silakan periksa dan klik SIMPAN.',
+      title: '🤖 Data Masuk!',
+      text: 'Form telah diisi otomatis, silakan klik SIMPAN.',
       icon: 'success',
       timer: 2000,
       showConfirmButton: false
