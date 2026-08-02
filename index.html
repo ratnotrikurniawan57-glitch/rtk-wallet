@@ -582,16 +582,18 @@
     </section>
 
 
-    <!-- VIEW 4: RENCANA BUDGET -->
+   <!-- VIEW 4: RENCANA BUDGET -->
     <section id="view-plan" class="hidden space-y-4">
       <div class="term-box p-4">
-        <div class="term-title-sub border-b border-[var(--border-color)] pb-2 mb-3">
-          > RENCANA BUDGET KATEGORI (PERMANEN)
+        <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-2 mb-3">
+          <div class="term-title-sub">> RENCANA BUDGET KATEGORI (PERMANEN)</div>
+          <button onclick="openAddBudgetModal()" class="term-btn term-btn-green text-xs py-1 px-2.5">
+            + SET BUDGET
+          </button>
         </div>
         <p class="text-xs text-[var(--text-muted)] mb-4">
           Target anggaran berlaku permanen dan otomatis direset pemakaiannya setiap tanggal 1 bulan baru.
         </p>
-
 
         <div id="plan-list" class="space-y-4"></div>
       </div>
@@ -795,14 +797,14 @@
     }
 
 
-    function formatRupiahInput(inputEl) {
-      let value = inputEl.value.replace(/\D/g, "");
-      if (value) {
-        inputEl.value = Number(value).toLocaleString("id-ID");
-      } else {
-        inputEl.value = "";
-      }
-    }
+function formatRupiahInput(inputEl) {
+  let value = inputEl.value.replace(/\D/g, "");
+  if (value) {
+    inputEl.value = Number(value).toLocaleString("id-ID");
+  } else {
+    inputEl.value = "";
+  }
+}
 
 
     function getUnformattedNominal(formattedVal) {
@@ -1705,44 +1707,64 @@
     }
 
 
-    function saveCategory() {
-      const ikon = document.getElementById('cat-icon-input').value || '📌';
-      const nama = document.getElementById('cat-name-input').value;
-      const jenis = document.getElementById('cat-type-input').value;
+    // --- TAMBAH KATEGORI (SYNC SHEET) ---
+async function saveCategory() {
+  const iconInput = document.getElementById('cat-icon-input').value.trim() || '📌';
+  const nameInput = document.getElementById('cat-name-input').value.trim();
+  const typeInput = document.getElementById('cat-type-input').value;
 
+  if (!nameInput) {
+    Swal.fire({ ...getSwalConfig(), title: 'Input Kosong', text: 'Nama kategori wajib diisi!', icon: 'warning' });
+    return;
+  }
+  const isExist = appData.categories.some(c => c.Nama_Kategori.toLowerCase() === nameInput.toLowerCase());
+  if (isExist) {
+    Swal.fire({ ...getSwalConfig(), title: 'Sudah Ada', text: 'Kategori ini sudah terdaftar.', icon: 'info' });
+    return;
+  }
 
-      if (!nama) return;
+  const newCat = { ID_Kategori: nameInput, Nama_Kategori: nameInput, Jenis: typeInput, Ikon: iconInput };
 
+  try {
+    Swal.fire({ title: 'Menyimpan Kategori...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+    await callApi('saveCategory', newCat);
+    appData.categories.push(newCat);
+    document.getElementById('cat-icon-input').value = '';
+    document.getElementById('cat-name-input').value = '';
+    populateCategoryDropdown();
+    renderManageCategoryModalList();
+    renderDashboard();
+    Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: `Kategori '${nameInput}' tersimpan ke Sheet.`, icon: 'success' });
+  } catch (err) {
+    Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
+  }
+}
 
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run
-          .withSuccessHandler(() => {
-            document.getElementById('cat-name-input').value = '';
-            loadInitialData();
-            renderCategoryListModal();
-          })
-          .addCategory(ikon, nama, jenis, '#FFB6A6');
-      } else {
-        appData.categories.push({ ID_Kategori: 'CAT_' + Date.now(), Ikon: ikon, Nama_Kategori: nama, Jenis: jenis });
-        document.getElementById('cat-name-input').value = '';
-        populateCategoryDropdown();
-        renderCategoryListModal();
-      }
+// --- HAPUS KATEGORI (SYNC SHEET) ---
+async function deleteCategory(namaKategori) {
+  const result = await Swal.fire({
+    ...getSwalConfig(),
+    title: 'Hapus Kategori?',
+    text: `Hapus kategori '${namaKategori}' dari Sheet?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Ya, Hapus!',
+    cancelButtonText: 'Batal'
+  });
+  if (result.isConfirmed) {
+    try {
+      Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      await callApi('deleteCategory', { Nama_Kategori: namaKategori });
+      appData.categories = appData.categories.filter(c => c.Nama_Kategori !== namaKategori);
+      populateCategoryDropdown();
+      renderManageCategoryModalList();
+      renderDashboard();
+      Swal.fire({ ...getSwalConfig(), title: 'Terhapus!', text: 'Kategori berhasil dihapus.', icon: 'success' });
+    } catch (err) {
+      Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
     }
-
-
-    function deleteCategory(id) {
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run.withSuccessHandler(() => {
-          loadInitialData();
-          renderCategoryListModal();
-        }).deleteCategory(id);
-      } else {
-        appData.categories = appData.categories.filter(c => c.ID_Kategori !== id);
-        populateCategoryDropdown();
-        renderCategoryListModal();
-      }
-    }
+  }
+}
 
 
    async function triggerAIAnalysis() {
