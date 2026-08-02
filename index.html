@@ -708,7 +708,7 @@
       </div>
       <div>
         <label class="term-title-sub block mb-1">TOTAL NOMINAL (RP)</label>
-        <input type="number" id="debt-nominal" class="term-input" placeholder="50000">
+        <input type="text" id="debt-nominal" oninput="formatRupiahInput(this)" class="term-input font-bold" placeholder="0">
       </div>
       <div>
         <label class="term-title-sub block mb-1">TANGGAL JATUH TEMPO</label>
@@ -1576,26 +1576,47 @@ function formatRupiahInput(inputEl) {
     }
 
 
-    function openAddDebtModal() {
-      document.getElementById('add-debt-modal').classList.remove('hidden');
-    }
-    function closeAddDebtModal() {
-      document.getElementById('add-debt-modal').classList.add('hidden');
-    }
+    // --- BUKA MODAL UTANG ---
+function openAddDebtModal() {
+  document.getElementById('debt-nama').value = '';
+  document.getElementById('debt-nominal').value = '';
+  document.getElementById('debt-tempo').value = '';
+  document.getElementById('add-debt-modal').classList.remove('hidden');
+}
 
+// --- TUTUP MODAL UTANG ---
+function closeAddDebtModal() {
+  document.getElementById('add-debt-modal').classList.add('hidden');
+}
 
-    async function saveDebt() {
-  const nama = document.getElementById('debt-nama').value;
+// --- SIMPAN RECORD UTANG / PIUTANG (SYNC SPREADSHEET) ---
+async function saveDebt() {
+  const nama = document.getElementById('debt-nama').value.trim();
   const jenis = document.getElementById('debt-jenis').value;
-  const nominal = document.getElementById('debt-nominal').value;
+  const rawNominal = document.getElementById('debt-nominal').value;
+  const nominal = getUnformattedNominal(rawNominal);
   const tempo = document.getElementById('debt-tempo').value;
 
-  if (!nama || !nominal) return;
+  if (!nama || nominal <= 0) {
+    Swal.fire({
+      ...getSwalConfig(),
+      title: 'Input Inkomplit',
+      text: 'Nama dan Nominal wajib diisi dengan benar.',
+      icon: 'warning'
+    });
+    return;
+  }
 
-  const debtObj = { nama, jenis, totalUtang: nominal, jatuhTempo: tempo };
+  // Struktur objek disesuaikan dengan handler Apps Script
+  const debtObj = {
+    ID_Utang: 'DEBT-' + Date.now(),
+    Nama: nama,
+    Jenis: jenis,
+    Nominal: nominal,
+    Tempo: tempo
+  };
 
   try {
-    // Indikator loading saat proses simpan ke server
     Swal.fire({
       title: 'Menyimpan Utang...',
       text: 'Mengirim data ke RTK Wallet...',
@@ -1603,22 +1624,28 @@ function formatRupiahInput(inputEl) {
       didOpen: () => Swal.showLoading()
     });
 
-    // Panggil API addDebt via Vercel (Fetch)
-    await callApi('addDebt', debtObj);
+    // Kirim data ke Google Apps Script via Vercel Proxy
+    await callApi('saveDebt', debtObj);
+
+    // Update state lokal
+    if (!appData.debts) appData.debts = [];
+    appData.debts.push({
+      ...debtObj,
+      Terbayar: 0,
+      Status: 'Belum Lunas'
+    });
 
     closeAddDebtModal();
+    renderExtra();
 
     Swal.fire({
       ...getSwalConfig(),
       title: 'Berhasil',
       text: 'Catatan utang/piutang berhasil disimpan!',
       icon: 'success',
-      timer: 1200,
+      timer: 1500,
       showConfirmButton: false
     });
-
-    // Reload data terbaru dari Google Sheets
-    await loadInitialData();
 
   } catch (err) {
     console.error("Gagal menyimpan utang/piutang:", err);
@@ -1717,6 +1744,7 @@ async function saveCategory() {
     Swal.fire({ ...getSwalConfig(), title: 'Input Kosong', text: 'Nama kategori wajib diisi!', icon: 'warning' });
     return;
   }
+
   const isExist = appData.categories.some(c => c.Nama_Kategori.toLowerCase() === nameInput.toLowerCase());
   if (isExist) {
     Swal.fire({ ...getSwalConfig(), title: 'Sudah Ada', text: 'Kategori ini sudah terdaftar.', icon: 'info' });
@@ -1729,18 +1757,20 @@ async function saveCategory() {
     Swal.fire({ title: 'Menyimpan Kategori...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
     await callApi('saveCategory', newCat);
     appData.categories.push(newCat);
+    
     document.getElementById('cat-icon-input').value = '';
     document.getElementById('cat-name-input').value = '';
+    
     populateCategoryDropdown();
-    renderManageCategoryModalList();
+    renderModalCategoryList(); // Fix nama fungsi di sini
     renderDashboard();
+    
     Swal.fire({ ...getSwalConfig(), title: 'Berhasil!', text: `Kategori '${nameInput}' tersimpan ke Sheet.`, icon: 'success' });
   } catch (err) {
     Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
   }
 }
 
-// --- HAPUS KATEGORI (SYNC SHEET) ---
 async function deleteCategory(namaKategori) {
   const result = await Swal.fire({
     ...getSwalConfig(),
@@ -1751,14 +1781,17 @@ async function deleteCategory(namaKategori) {
     confirmButtonText: 'Ya, Hapus!',
     cancelButtonText: 'Batal'
   });
+
   if (result.isConfirmed) {
     try {
       Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       await callApi('deleteCategory', { Nama_Kategori: namaKategori });
       appData.categories = appData.categories.filter(c => c.Nama_Kategori !== namaKategori);
+      
       populateCategoryDropdown();
-      renderManageCategoryModalList();
+      renderModalCategoryList(); // Fix nama fungsi di sini
       renderDashboard();
+      
       Swal.fire({ ...getSwalConfig(), title: 'Terhapus!', text: 'Kategori berhasil dihapus.', icon: 'success' });
     } catch (err) {
       Swal.fire({ ...getSwalConfig(), title: 'Gagal', text: err.message, icon: 'error' });
