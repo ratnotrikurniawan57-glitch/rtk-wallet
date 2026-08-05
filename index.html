@@ -817,10 +817,22 @@
       recognition.onend = function() { btnMic.innerText = '🎤 [ MIC / SUARA ]'; };
     }
 
+    // 1. HANDLER STRUK UPLOAD (Dengang Loading Status Kompresi)
     function handleStrukUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
-      document.getElementById('ai-status-indicator').classList.remove('hidden');
+
+      // Popup Loading Kompres Gambar
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: '📸 Membaca Struk...',
+          html: '<div class="p-2 text-xs text-[var(--text-muted)]">> Memproses & mengompresi foto struk...<span class="cursor-blink">█</span></div>',
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+        });
+      }
+
       const reader = new FileReader();
       reader.onload = function(e) {
         const img = new Image();
@@ -842,17 +854,122 @@
       reader.readAsDataURL(file);
     }
 
+    // 2. KIRIM INPUT KE BACKEND (Dengan Indicator Dialog Interaktif)
     async function sendSmartInputToBackend(type, content) {
-      const statusInd = document.getElementById('ai-status-indicator');
-      statusInd.classList.remove('hidden');
       const categoriesList = appData.categories.map(c => c.Nama_Kategori);
+      const isImage = type === 'image';
+
+      // Tampilan Pop-up Loading Elegan Sesuai Input
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: isImage ? '🔍 Menganalisis Struk...' : '🤖 Menganalisis Catatan...',
+          html: `<div class="p-3 text-center text-xs space-y-2">
+                  <div class="font-bold text-[var(--accent-orange)]">${isImage ? '📸 Bobib AI sedang membaca total & item struk' : '💭 Bobib AI sedang memproses kalimatmu'}</div>
+                  <div class="text-[var(--text-muted)] mt-1">> Menentukan jenis, kategori, & nominal...<span class="cursor-blink">█</span></div>
+                 </div>`,
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+        });
+      }
 
       try {
         const parsedObj = await callApi('processSmartInputWithGemini', { type: type, content: content, categories: categoriesList });
-        statusInd.classList.add('hidden');
         applyParsedDataToForm(parsedObj);
       } catch (err) {
-        statusInd.classList.add('hidden');
+        console.warn("AI Processing Gagal/Fallback:", err);
+        fallbackManualRegexParsing(content);
+      }
+    }
+
+    // 3. TERAPKAN DATA HASIL PARSING (Dengan Stempel Sukses)
+    function applyParsedDataToForm(data) {
+      if (!data) return;
+      if (data.jenis) setJenis(data.jenis.toLowerCase().includes('masuk') ? 'Pemasukan' : 'Pengeluaran');
+      if (data.kategori) {
+        const catSelect = document.getElementById('input-kategori');
+        if (catSelect) {
+          const matchOpt = Array.from(catSelect.options).find(o => o.value.toLowerCase().includes(data.kategori.toLowerCase()));
+          if (matchOpt) catSelect.value = matchOpt.value;
+        }
+      }
+      if (data.nominal) {
+        const nominalInput = document.getElementById('input-nominal');
+        nominalInput.value = data.nominal;
+        formatRupiahInput(nominalInput);
+      }
+      if (data.catatan) document.getElementById('input-catatan').value = data.catatan;
+      if (data.tanggal) document.getElementById('input-tanggal').value = data.tanggal;
+
+      // Tutup Loading & Tampilkan Stempel Sukses AI
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: '✨ Data Terisi Otomatis!',
+          text: 'Form berhasil diisi oleh Bobib AI. Silakan periksa kembali sebelum menyimpan.',
+          icon: 'success',
+          timer: 1800,
+          showConfirmButton: false
+        });
+      }
+    }
+
+    // 4. FALLBACK REGEX PARSING (Pengaman Jika AI Offline/Gagal)
+    function fallbackManualRegexParsing(text) {
+      if (typeof text !== 'string') {
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({ ...getSwalConfig(), title: 'Gagal Membaca', text: 'AI tidak dapat mengenali struk ini. Silakan input manual.', icon: 'warning' });
+        }
+        return;
+      }
+
+      let clean = text.toLowerCase();
+      let matchRibuan = clean.match(/(\d+[\d\.,]*)\s*(ribu|rb|k|jt|juta)/i);
+      if (matchRibuan) {
+        let num = parseFloat(matchRibuan[1].replace(',', '.'));
+        let unit = matchRibuan[2].toLowerCase();
+        if (['ribu', 'rb', 'k'].includes(unit)) num *= 1000;
+        if (['juta', 'jt'].includes(unit)) num *= 1000000;
+        document.getElementById('input-nominal').value = num;
+        formatRupiahInput(document.getElementById('input-nominal'));
+      }
+      document.getElementById('input-catatan').value = text;
+
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: '⚡ Terisi Mode Lokal',
+          text: 'Gagal menghubungi AI, form terisi menggunakan sistem pembaca teks cepat.',
+          icon: 'info',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    }
+
+    async function sendSmartInputToBackend(type, content) {
+      const categoriesList = appData.categories.map(c => c.Nama_Kategori);
+      const isImage = type === 'image';
+
+      // Tampilan Pop-up Loading Elegan Sesuai Input
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: isImage ? '🔍 Menganalisis Struk...' : '🤖 Menganalisis Catatan...',
+          html: `<div class="p-3 text-center text-xs space-y-2">
+                  <div class="font-bold text-[var(--accent-orange)]">${isImage ? '📸 Bobib AI sedang membaca total & item struk' : '💭 Bobib AI sedang memproses kalimatmu'}</div>
+                  <div class="text-[var(--text-muted)] mt-1">> Menentukan jenis, kategori, & nominal...<span class="cursor-blink">█</span></div>
+                 </div>`,
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+        });
+      }
+
+      try {
+        const parsedObj = await callApi('processSmartInputWithGemini', { type: type, content: content, categories: categoriesList });
+        applyParsedDataToForm(parsedObj);
+      } catch (err) {
+        console.warn("AI Processing Gagal/Fallback:", err);
         fallbackManualRegexParsing(content);
       }
     }
@@ -875,11 +992,26 @@
       if (data.catatan) document.getElementById('input-catatan').value = data.catatan;
       if (data.tanggal) document.getElementById('input-tanggal').value = data.tanggal;
 
-      Swal.fire({ ...getSwalConfig(), title: '🤖 Data Terisi!', text: 'Form otomatis terisi Gemini AI.', icon: 'success', timer: 1500, showConfirmButton: false });
+      // Tutup Loading & Tampilkan Stempel Sukses AI
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: '✨ Data Terisi Otomatis!',
+          text: 'Form berhasil diisi oleh Bobib AI. Silakan periksa kembali sebelum menyimpan.',
+          icon: 'success',
+          timer: 1800,
+          showConfirmButton: false
+        });
+      }
     }
-
     function fallbackManualRegexParsing(text) {
-      if (typeof text !== 'string') return;
+      if (typeof text !== 'string') {
+        if (typeof Swal !== 'undefined') {
+          Swal.fire({ ...getSwalConfig(), title: 'Gagal Membaca', text: 'AI tidak dapat mengenali struk ini. Silakan input manual.', icon: 'warning' });
+        }
+        return;
+      }
+
       let clean = text.toLowerCase();
       let matchRibuan = clean.match(/(\d+[\d\.,]*)\s*(ribu|rb|k|jt|juta)/i);
       if (matchRibuan) {
@@ -891,6 +1023,17 @@
         formatRupiahInput(document.getElementById('input-nominal'));
       }
       document.getElementById('input-catatan').value = text;
+
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          ...getSwalConfig(),
+          title: '⚡ Terisi Mode Lokal',
+          text: 'Gagal menghubungi AI, form terisi menggunakan sistem pembaca teks cepat.',
+          icon: 'info',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
     }
 
     async function simpanTransaksi() {
