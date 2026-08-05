@@ -288,42 +288,14 @@
           </div>
         </div>
       </div>
-
-      <div id="dash-top-cat" class="hidden term-box p-4 space-y-2">
-        <div class="flex justify-between items-center text-xs md:text-sm font-bold">
-          <span id="dash-top-cat-title">📌 -</span>
+      <!-- WIDGET TOP 3 BUDGET KRITIS -->
+      <div id="dash-top-cat" class="hidden term-box p-4 space-y-3">
+        <div class="term-title-sub border-b border-[var(--border-color)] pb-1 mb-2">
+          > TARGET ANGGARAN KRITIS (TOP 3)
         </div>
-        <div class="top-budget-bar-bg">
-          <div id="dash-top-cat-bar" class="top-budget-bar-fill" style="width: 0%;">
-            <span id="dash-top-cat-percent" class="top-budget-bar-percent">0%</span>
-          </div>
-        </div>
-        <div class="text-xs text-[var(--text-muted)]">
-          Terpakai: <b id="dash-top-cat-detail" class="text-[var(--text-main)]">Rp 0 / Rp 0</b>
-        </div>
+        <div id="dash-budget-list-container" class="space-y-3"></div>
       </div>
-
-      <div class="pt-2">
-        <div class="term-title-sub mb-2">$ CATAT KILAT</div>
-        <div class="grid grid-cols-4 gap-2">
-          <div class="term-btn text-center p-2.5" onclick="quickSelect('Makanan & Minuman', 'Kopi')">
-            <span class="text-lg block mb-1">☕</span>
-            <span class="text-[11px] font-bold block">KOPI</span>
-          </div>
-          <div class="term-btn text-center p-2.5" onclick="quickSelect('Makanan & Minuman', 'Makan')">
-            <span class="text-lg block mb-1">🍔</span>
-            <span class="text-[11px] font-bold block">MAKAN</span>
-          </div>
-          <div class="term-btn text-center p-2.5" onclick="quickSelect('Transportasi', 'BBM/Trans')">
-            <span class="text-lg block mb-1">🚗</span>
-            <span class="text-[11px] font-bold block">TRANS</span>
-          </div>
-          <div class="term-btn text-center p-2.5" onclick="nav('input')">
-            <span class="text-lg block mb-1">➕</span>
-            <span class="text-[11px] font-bold block">LAIN</span>
-          </div>
-        </div>
-      </div>
+      
     </section>
 
     <!-- VIEW 2: INPUT TRANSAKSI -->
@@ -725,30 +697,83 @@
 
     function renderTopBudgetWidget(currentMonthStr) {
       const widgetContainer = document.getElementById('dash-top-cat');
-      if (!appData.budgets || appData.budgets.length === 0) {
+      const listContainer = document.getElementById('dash-budget-list-container');
+      
+      if (!appData.budgets || appData.budgets.length === 0 || !listContainer) {
         widgetContainer.classList.add('hidden');
         return;
       }
 
-      const budget = appData.budgets[0];
-      const categoryObj = appData.categories.find(c => c.ID_Kategori === budget.ID_Kategori || c.Nama_Kategori === budget.ID_Kategori);
-      const catName = categoryObj ? categoryObj.Nama_Kategori : budget.ID_Kategori;
-      const catIcon = categoryObj ? categoryObj.Ikon : '📌';
+      // 1. Hitung pemakaian setiap kategori yang memiliki target budget
+      const budgetList = [];
+      appData.budgets.forEach(budget => {
+        const target = parseFloat(budget.Target_Anggaran) || 0;
+        if (target <= 0) return;
 
-      let totalPemakaian = 0;
-      appData.transactions.forEach(t => {
-        if (t.Jenis === 'Pengeluaran' && t.Kategori === catName && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
-          totalPemakaian += parseFloat(t.Nominal) || 0;
-        }
+        const categoryObj = appData.categories.find(c => c.ID_Kategori === budget.ID_Kategori || c.Nama_Kategori === budget.ID_Kategori);
+        const catName = categoryObj ? categoryObj.Nama_Kategori : budget.ID_Kategori;
+        const catIcon = categoryObj ? categoryObj.Ikon : '📌';
+
+        let totalPemakaian = 0;
+        appData.transactions.forEach(t => {
+          if (t.Jenis === 'Pengeluaran' && t.Kategori === catName && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
+            totalPemakaian += parseFloat(t.Nominal) || 0;
+          }
+        });
+
+        const percent = Math.round((totalPemakaian / target) * 100);
+        budgetList.push({
+          name: catName,
+          icon: catIcon,
+          target: target,
+          used: totalPemakaian,
+          percent: percent
+        });
       });
 
-      const target = parseFloat(budget.Target_Anggaran) || 1;
-      const percent = Math.min(Math.round((totalPemakaian / target) * 100), 100);
+      if (budgetList.length === 0) {
+        widgetContainer.classList.add('hidden');
+        return;
+      }
 
-      document.getElementById('dash-top-cat-title').innerText = `${catIcon} TARGET: ${catName.toUpperCase()}`;
-      document.getElementById('dash-top-cat-detail').innerText = `${formatRupiah(totalPemakaian)} / ${formatRupiah(target)}`;
-      document.getElementById('dash-top-cat-bar').style.width = `${percent}%`;
-      document.getElementById('dash-top-cat-percent').innerText = `${percent}%`;
+      // 2. Sortir berdasarkan persentase pemakaian tertinggi (paling mendekati habis/melebihi)
+      budgetList.sort((a, b) => b.percent - a.percent);
+
+      // 3. Ambil Maksimal Top 3
+      const top3 = budgetList.slice(0, 3);
+      listContainer.innerHTML = '';
+
+      top3.forEach(item => {
+        // Tentukan warna progress bar berdasarkan kondisi kritis
+        let barColorClass = 'var(--accent-orange)';
+        if (item.percent >= 100) {
+          barColorClass = 'var(--accent-red)';
+        } else if (item.percent < 70) {
+          barColorClass = 'var(--accent-green)';
+        }
+
+        const barWidth = Math.min(item.percent, 100);
+
+        const row = document.createElement('div');
+        row.className = 'space-y-1';
+        row.innerHTML = `
+          <div class="flex justify-between items-center text-xs font-bold">
+            <span>${item.icon} ${item.name.toUpperCase()}</span>
+            <span style="color: ${barColorClass};">${item.percent}%</span>
+          </div>
+          <div class="top-budget-bar-bg">
+            <div class="top-budget-bar-fill" style="width: ${barWidth}%; background: ${barColorClass};">
+              <span class="top-budget-bar-percent">${item.percent}%</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center text-[10px] text-[var(--text-muted)]">
+            <span>Terpakai: ${formatRupiah(item.used)}</span>
+            <span>Target: ${formatRupiah(item.target)}</span>
+          </div>
+        `;
+        listContainer.appendChild(row);
+      });
+
       widgetContainer.classList.remove('hidden');
     }
 
