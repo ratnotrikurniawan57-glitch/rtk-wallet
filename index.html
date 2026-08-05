@@ -634,23 +634,36 @@
 
     function nav(viewId) {
       ['dashboard', 'history', 'input', 'plan', 'extra'].forEach(v => {
-        document.getElementById(`view-${v}`).classList.add('hidden');
+        // Pengaman 1: Cek Elemen View
+        const viewEl = document.getElementById(`view-${v}`);
+        if (viewEl) viewEl.classList.add('hidden');
+
+        // Pengaman 2: Cek Tombol Mobile
         const mobBtn = document.getElementById(`mob-nav-${v}`);
         if (mobBtn) mobBtn.classList.remove('active', 'term-btn-green');
+
+        // Pengaman 3: Cek Tombol Desktop
         const deskBtn = document.getElementById(`desk-nav-${v}`);
         if (deskBtn) deskBtn.classList.remove('active');
       });
 
-      document.getElementById(`view-${viewId}`).classList.remove('hidden');
+      // Buka View yang Aktif
+      const activeView = document.getElementById(`view-${viewId}`);
+      if (activeView) activeView.classList.remove('hidden');
+
+      // Aktifkan Tombol Mobile
       const activeMob = document.getElementById(`mob-nav-${viewId}`);
       if (activeMob) activeMob.classList.add('active', 'term-btn-green');
+
+      // Aktifkan Tombol Desktop
       const activeDesk = document.getElementById(`desk-nav-${viewId}`);
       if (activeDesk) activeDesk.classList.add('active');
 
-      if (viewId === 'dashboard') renderDashboard();
-      if (viewId === 'history') renderHistory();
-      if (viewId === 'plan') renderPlan();
-      if (viewId === 'extra') renderExtra();
+      // Jalankan Pengolahan Data Masing-masing View
+      if (viewId === 'dashboard' && typeof renderDashboard === 'function') renderDashboard();
+      if (viewId === 'history' && typeof renderHistory === 'function') renderHistory();
+      if (viewId === 'plan' && typeof renderPlan === 'function') renderPlan();
+      if (viewId === 'extra' && typeof renderExtra === 'function') renderExtra();
     }
 
     async function loadInitialData() {
