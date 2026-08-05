@@ -401,7 +401,8 @@
     </section>
 
     <!-- VIEW 5: LAPORAN & UTANG -->
-    <!-- SECTION GRAFIK & LAPORAN -->
+    <section id="view-extra" class="hidden space-y-6">
+      <!-- SECTION GRAFIK & LAPORAN -->
       <div class="term-box p-4 space-y-4">
         <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-2">
           <div class="term-title-sub">> GRAFIK & ANALISIS PENGELUARAN</div>
@@ -420,6 +421,7 @@
         </div>
       </div>
 
+      <!-- CATATAN UTANG PIUTANG -->
       <div class="term-box p-4 space-y-4">
         <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-2">
           <div class="term-title-sub">> CATATAN UTANG / PIUTANG</div>
@@ -430,7 +432,6 @@
         <div id="debt-list" class="space-y-3"></div>
       </div>
     </section>
-  </main>
 
   <button id="ai-fab-button" onclick="triggerAIAnalysis()" class="ai-fab-btn" title="Tanya Bobib AI">🤖</button>
 
