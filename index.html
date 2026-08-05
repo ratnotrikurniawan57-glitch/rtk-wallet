@@ -1164,35 +1164,54 @@
 
     function renderPlan() {
       const container = document.getElementById('plan-list');
+      if (!container) return;
       container.innerHTML = '';
       const currentMonthStr = new Date().toISOString().slice(0, 7);
 
-      appData.categories.filter(c => c.Jenis === 'Pengeluaran').forEach(cat => {
-        const budgetObj = appData.budgets.find(b => b.ID_Kategori === cat.ID_Kategori || b.ID_Kategori === cat.Nama_Kategori);
-        const targetVal = budgetObj ? parseFloat(budgetObj.Target_Anggaran) : 0;
-        let usedVal = 0;
-        appData.transactions.forEach(t => {
-          if (t.Jenis === 'Pengeluaran' && t.Kategori === cat.Nama_Kategori && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
-            usedVal += parseFloat(t.Nominal) || 0;
-          }
-        });
-        const percent = targetVal > 0 ? Math.min(Math.round((usedVal / targetVal) * 100), 100) : 0;
+      // 1. Ambil semua kategori Pengeluaran & hitung pemakaian serta targetnya
+      const listData = appData.categories
+        .filter(c => c.Jenis === 'Pengeluaran')
+        .map(cat => {
+          const budgetObj = appData.budgets.find(b => b.ID_Kategori === cat.ID_Kategori || b.ID_Kategori === cat.Nama_Kategori);
+          const targetVal = budgetObj ? parseFloat(budgetObj.Target_Anggaran) : 0;
+          let usedVal = 0;
 
+          appData.transactions.forEach(t => {
+            if (t.Jenis === 'Pengeluaran' && t.Kategori === cat.Nama_Kategori && (t.Tanggal || '').slice(0, 7) === currentMonthStr) {
+              usedVal += parseFloat(t.Nominal) || 0;
+            }
+          });
+
+          const percent = targetVal > 0 ? Math.min(Math.round((usedVal / targetVal) * 100), 100) : 0;
+
+          return {
+            cat: cat,
+            targetVal: targetVal,
+            usedVal: usedVal,
+            percent: percent
+          };
+        });
+
+      // 2. URUTKAN DARI TARGET BUDGET TERBESAR KE TERKECIL
+      listData.sort((a, b) => b.targetVal - a.targetVal);
+
+      // 3. Render ke Layar (Tampilan 100% Tetap Sama)
+      listData.forEach(item => {
         const card = document.createElement('div');
         card.className = 'term-box p-3 space-y-2';
         card.innerHTML = `
           <div class="flex justify-between items-center text-xs">
-            <span class="font-bold">${cat.Ikon || '📌'} ${cat.Nama_Kategori}</span>
-            <span class="text-[var(--text-muted)]">Target: ${formatRupiah(targetVal)}</span>
+            <span class="font-bold">${item.cat.Ikon || '📌'} ${item.cat.Nama_Kategori}</span>
+            <span class="text-[var(--text-muted)]">Target: ${formatRupiah(item.targetVal)}</span>
           </div>
           <div class="top-budget-bar-bg">
-            <div class="top-budget-bar-fill" style="width: ${percent}%;">
-              <span class="top-budget-bar-percent">${percent}%</span>
+            <div class="top-budget-bar-fill" style="width: ${item.percent}%;">
+              <span class="top-budget-bar-percent">${item.percent}%</span>
             </div>
           </div>
           <div class="flex justify-between items-center text-[10px] text-[var(--text-muted)]">
-            <span>Terpakai Bulan Ini: ${formatRupiah(usedVal)}</span>
-            <button onclick="editBudget('${cat.Nama_Kategori}', ${targetVal})" class="term-btn text-[10px] px-2 py-0.5">
+            <span>Terpakai Bulan Ini: ${formatRupiah(item.usedVal)}</span>
+            <button onclick="editBudget('${item.cat.Nama_Kategori}', ${item.targetVal})" class="term-btn text-[10px] px-2 py-0.5">
               [ SET TARGET ]
             </button>
           </div>
